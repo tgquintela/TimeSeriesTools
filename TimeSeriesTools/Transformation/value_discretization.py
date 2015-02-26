@@ -134,6 +134,7 @@ def discretize_with_thresholds(array, thres, values=[]):
     maxi = np.ones((array.shape[0], array.shape[1], 1))*np.max(array)
     # Concatenation
     thres = np.concatenate([mini, thres, maxi], axis=2)
+    array = array.reshape((array.shape[0], array.shape[1]))
 
     ## 2. Fill the new vector discretized signal to the given values
     aux = np.zeros(array.shape)
@@ -141,7 +142,6 @@ def discretize_with_thresholds(array, thres, values=[]):
         indices = np.logical_and(array >= thres[:, :, i],
                                  array <= thres[:, :, i+1])
         indices = np.nonzero(indices)
-        print indices
         aux[indices] = values[i]
 
     return aux
