@@ -57,7 +57,7 @@ def dummy_burst_detection(spks, t_max):
     Returns
     -------
     bursts: list of arrays
-        the spikes times in each burst.
+        the active times in each burst.
 
     """
 
