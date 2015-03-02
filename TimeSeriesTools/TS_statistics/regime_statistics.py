@@ -484,7 +484,7 @@ def prob_spk_xy(spks, max_l=8, normalized=False):
     n = elements.shape[0]
 
     # Loop for each timelag possible
-    for timelag in range(max_l):
+    for timelag in range(max_l+1):
         # Loop for each element pair
         for i in range(n):
             for j in range(i, n):
@@ -501,7 +501,7 @@ def prob_spk_xy(spks, max_l=8, normalized=False):
     # Normalization (extern function, and compute intially normalization?)
     if normalized:
         diag = np.diag(probs[:, :, 0])
-        for z in range(max_l):
+        for z in range(max_l+1):
             d = np.eye(n)*np.diag(probs[:, :, z])
             aux_u = np.divide(np.triu(probs[:, :, z]).T, diag).T
             aux_l = np.divide(np.tril(probs[:, :, z])-d, diag)
