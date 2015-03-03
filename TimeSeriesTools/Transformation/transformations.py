@@ -4,7 +4,7 @@
 
 from temporal_discretization import temporal_discretization
 from value_discretization import value_discretization
-from smoothing import general_filtering
+from filtering import general_filtering
 from windowing_transformation import windowing_transformation
 
 
