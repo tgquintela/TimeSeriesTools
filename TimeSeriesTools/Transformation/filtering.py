@@ -752,7 +752,7 @@ def general_reweighting(Y, method, kwargs):
     return Ys
 
 
-def power_sutera_reweighing(Y):
+def power_sutera_reweighing(Y, f_pow=lambda x: 1):
     """Re-weights the time series giving more value to the values of the time
     serie when there are a low global activity.
 
@@ -770,7 +770,9 @@ def power_sutera_reweighing(Y):
     ## 1. Transformation
     Yt = np.zeros(Y.shape)
     for j in range(m):
-        Yt[:, j] = np.power((Y[:, j] + 1.), (1.+np.divide(1., global_y)))
+        Yt[:, j] = np.power((Y[:, j] + 1.),
+                            np.power((1.+np.divide(1., global_y)),
+                                     f_pow(global_y)))
     # Correct global 0
     Yt[global_y == 0, :] = 1.
 
