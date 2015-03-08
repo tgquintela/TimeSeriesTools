@@ -2,6 +2,10 @@
 """
 This module is composed by a group of functions that computes some measures
 in the time-series individually.
+
+TODO
+----
+entropy rate (paper transfer entropy)
 """
 
 import numpy as np
