@@ -59,32 +59,94 @@ def discretize_with_thresholds(array, thres, values=[]):
 
     Returns
     -------
-    aux: array
+    aux: array, shape (array.shape)
         a array with discretized values
 
     '''
 
+    ## Formatting and building variables needed
+    inshape = array.shape
+    thres = threshold_formatter(array, thres)
+    # Number of threshold values
+    nd_thres = thres.shape[2]
+    # Setting values
+    if values == []:
+        values = range(nd_thres-1)
+    elif type(thres) == list:
+        assert nd_thres == len(values)+1
+    ## 2. Fill the new vector discretized signal to the given values
+    aux = np.zeros(array.shape)
+    for i in range(len(values)):
+        indices = np.logical_and(array >= thres[:, :, i],
+                                 array <= thres[:, :, i+1])
+        indices = np.nonzero(indices)
+        aux[indices] = values[i]
+
+    aux = aux.reshape(inshape)
+    return aux
+
+
+def threshold_formatter(array, thres):
+    """Function which transforms the thresholds given to a array format to
+    apply easy the discretization.
+
+    Parameters
+    ----------
+    array: array_like, shape ()
+        the array we want to discretize.
+    thres:
+        the threshold information.
+
+    Returns
+    -------
+    thres: array_like, shape (array.shape[0], n_elem, nd_thres)
+        the matrix of thresholds to easy threshold the array.
+
+    """
+
     ## 1. Preparing thresholds and values
     nd_input = len(array.shape)
+    n_elem = 1 if nd_input == 1 else array.shape[1]
 
     # From an input of a float
     if type(thres) == float:
         nd_thres = 1
-        if nd_input == 1:
-            thres = thres*np.ones((array.shape[0], 1))
-        elif nd_input == 2:
-            thres = thres*np.ones((array.shape[0], array.shape[1], 1))
-    # From an input of a list
-    elif type(thres) == list:
-        nd_thres = len(thres)
-        aux = np.ones((array.shape[0], array.shape[1], nd_thres))
-        if nd_input == 1:
+        thres = thres*np.ones((array.shape[0], n_elem, nd_thres))
+
+    # From an input of a list or tuple:
+    # {list of floats, list of arrays or tuple of arrys}
+    elif type(thres) in [list, tuple]:
+        tp = [type(e) for e in thres]
+        assert np.all([t == tp[0] for t in tp])
+        tp = tp[0]
+        # List of floats
+        if tp == float:
+            nd_thres = len(thres)
+            aux = np.ones((array.shape[0], n_elem, nd_thres))
             for i in range(nd_thres):
-                aux[:, i] = thres[i]*aux[:, i]
-        elif nd_input == 2:
-            for i in range(nd_thres):
-                aux[:, :, i] = thres[i]*aux[:, :, i]
-        thres = aux
+                aux[:, :, i] = aux[:, :, i] * thres[i]
+            thres = aux
+        # List or tuple of arrays
+        elif tp in [np.ndarray, np.array]:
+            nd_thres1 = len(thres)
+            nd_thres2 = [e.shape[0] for e in thres]
+            assert np.all([e == nd_thres2[0] for e in nd_thres2])
+            nd_thres2 = nd_thres2[0]
+            # nd_thres could be n_elem or nd_thres
+            if n_elem == nd_thres1:
+                nd_thres = thres[0].shape[0]
+                aux = np.ones((array.shape[0], n_elem, nd_thres))
+                for i in range(n_elem):
+                    for j in range(nd_thres):
+                        aux[:, i, j] = aux[:, i, j] * thres[i][j]
+                thres = aux
+            elif n_elem == nd_thres2:
+                nd_thres = thres[0].shape[0]
+                aux = np.ones((array.shape[0], n_elem, nd_thres))
+                for i in range(nd_thres):
+                    for j in range(n_elem):
+                        aux[:, j, i] = aux[:, j, i] * thres[i][j]
+                thres = aux
     # From an input of a array (4 possibilities)
     elif type(thres) == np.ndarray:
         # each threshold for each different elements (elements)
@@ -123,28 +185,43 @@ def discretize_with_thresholds(array, thres, values=[]):
         elif len(thres.shape) == 3:
             nd_thres = thres.shape[2]
 
-    # Setting values
-    if values == []:
-        values = range(nd_thres+1)
-    elif type(thres) == list:
-        assert nd_thres == len(values)-1
-
-    # Creation of the limit min and max thresholds
-    mini = np.ones((array.shape[0], array.shape[1], 1))*np.min(array)
-    maxi = np.ones((array.shape[0], array.shape[1], 1))*np.max(array)
+    ## 2. Creation of the limit min and max thresholds
+    mini = -np.ones((array.shape[0], n_elem, 1))*np.inf
+    maxi = np.ones((array.shape[0], n_elem, 1))*np.inf
     # Concatenation
     thres = np.concatenate([mini, thres, maxi], axis=2)
-    array = array.reshape((array.shape[0], array.shape[1]))
 
-    ## 2. Fill the new vector discretized signal to the given values
-    aux = np.zeros(array.shape)
-    for i in range(len(values)):
-        indices = np.logical_and(array >= thres[:, :, i],
-                                 array <= thres[:, :, i+1])
-        indices = np.nonzero(indices)
-        aux[indices] = values[i]
+    return thres
 
-    return aux
+
+def threshold_binning_builder(array, n_bins):
+    """Function to create the thresholds from binning arrays.
+
+    Parameters
+    ----------
+    array: array_like
+        the array to be discretized.
+    n_bins: int or array
+        the information about binning.
+
+    Returns
+    -------
+    thres: array_like, shape (N, n_elem, nd_thres)
+        the thresholding matrix.
+
+    """
+
+    ## 0. Needed variables
+    # Number of elements
+    n_elem = 1 if len(array.shape) == 1 else array.shape[1]
+    ## 1. Binning thresholds
+    # bins edges
+    _, bins_edges = np.histogram(array.reshape(-1), n_bins)
+    # format
+    thres = tuple([bins_edges for i in range(n_elem)])
+    ## 2. Format to matrix thresholding
+    thres = threshold_formatter(array, thres)
+    return thres
 
 
 ###############################################################################
