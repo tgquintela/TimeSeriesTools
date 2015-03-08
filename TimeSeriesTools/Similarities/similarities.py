@@ -35,6 +35,8 @@ def general_comparison(X, method, **kwargs):
         comparisons = method(X, **kwargs)
     elif method == 'lag_based':
         comparisons = general_lag_distance(X, **kwargs)
+    elif method == 'static_based':
+        comparisons = general_distance_M(X, **kwargs)
 
     return comparisons
 

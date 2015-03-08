@@ -2,6 +2,10 @@
 """
 Module which groups all the information theory based measures of distances and
 similarity of this package.
+
+TODO
+----
+Discretization for transformation ts module
 """
 
 from sklearn.metrics import mutual_info_score
@@ -31,55 +35,97 @@ def mutualInformation(X, bins):
 
 def mutualInformation_1to1(x, y, bins):
     """Computation of the mutual information between two time-series.
+
+    Parameters
+    ----------
+    x: array_like, shape (N,)
+        time series to compute difference.
+    y: array_like, shape (N,)
+        time series to compute difference.
+    bins: int or tuple of ints or tuple of arrays
+        the binning information.
+
+    Returns
+    -------
+    mi: float
+        the measure of mutual information between the two time series.
+
     """
 
-    c_xy = np.histogram2d(x, y, bins)[0]
+    ## 1. Discretization
+    if bins is None:
+        # Compute contingency matrix
+        pass
+    else:
+        c_xy = np.histogram2d(x, y, bins)[0]
+
+    ## 2. Compute mutual information from contingency matrix
     mi = mutual_info_score(None, None, contingency=c_xy)
     return mi
 
 
-def computeIGCI_ind(F):
+def conditional_entropy(x, y):
+    """
+    TODO
+    ----
+    Compute correctly
+    Check with the real matrices
+    """
+    # Discretized signals
+    ## xy and number of regimes
+    p_xy = prob_xy(x, y)
+    p_x = prob_x(x)
+    p_y = prob_x(y)
+
+    # Conditional probability
+    p_x_y = np.divide(p_xy, p_y)
+    # Sum over possible combination of regimes
+    H_x_y = np.sum(p_xy, np.log(p_x_y))
+
+    return H_x_y
+
+
+def information_GCI_ind(X, bins):
     ''' Baseline method to compute scores based on Information Geometry Causal
-    Inference,
-    Inspired by:
-    [1]  P. Daniuis, D. Janzing, J. Mooij, J. Zscheischler, B. Steudel,
-         K. Zhang, B. Schalkopf:  Inferring deterministic causal relations.
-         Proceedings of the 26th Annual Conference on Uncertainty in Artificial
-         Intelligence (UAI-2010).
-         http://event.cwi.nl/uai2010/papers/UAI2010_0121.pdf
-    It boils down to computing the difference in entropy between pairs of
-    variables:
-        scores(i, j) = H(j) - H(i)
+    Inference, it boils down to computing the difference in entropy between
+    pairs of variables:    scores(i, j) = H(j) - H(i)
+
+    Parameters
+    ----------
+    X: array_like, shape(N,)
+        the time-series of the system.
+    bins: array_like, shape (Nintervals+1,)
+        information of binning or discretizing.
+
+    Returns
+    -------
+    scores: array_like, shape (Nelements, Nelements)
+        the matrix of the system.
+
+    Reference
+    ---------
+    .. [1] P. Daniuis, D. Janzing, J. Mooij, J. Zscheischler, B. Steudel,
+    K. Zhang, B. Schalkopf: Inferring deterministic causal relations.
+    Proceedings of the 26th Annual Conference on Uncertainty in Artificial
+    Intelligence (UAI-2010).
+    http://event.cwi.nl/uai2010/papers/UAI2010_0121.pdf
+
     '''
     ## DOUBT: Only for discrete signals?
-    #D = discretizeFluorescenceSignal(F)
     # Compute the entropy
-    H = entropy(F)
+    if bins is None:
+        H = entropy(X)
 
     ## Compute the scores as entropy differences (vectorized :-))
     n = H.shape[0]
     scores = np.zeros(shape=(n, n))
 
-    #Loop over all the possible pairs of elements
+    ## Loop over all the possible pairs of elements
     for i in range(n):
         for j in range(n):
             scores[i, j] = H[j] - H[i]
 
     return scores
-
-
-### JOINT ENTROPY
-#def calc_MI(X,Y,bins):
-##http://stackoverflow.com/questions/20491028/optimal-way-
-##for-calculating-columnwise-mutual-information-using-numpy
-#   c_XY = np.histogram2d(X,Y,bins)[0]
-#   c_X = np.histogram(X,bins)[0]
-#   c_Y = np.histogram(Y,bins)[0]
-#   H_X = shan_entropy(c_X)
-#   H_Y = shan_entropy(c_Y)
-#   H_XY = shan_entropy(c_XY)
-#   MI = H_X + H_Y - H_XY
-#   return MI
 
 
 # import time
