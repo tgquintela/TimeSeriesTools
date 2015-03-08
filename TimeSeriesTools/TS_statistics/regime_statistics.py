@@ -31,7 +31,7 @@ def prob_regimes_x(spks, max_t=None, normalized=False):
     probs: array_like, shape(Nneur, Nreg)
         the number of times in a given regime or the probability of spike in
         time.
-    elements: array-like
+    elements: array_like
         the code for each element.
     regimes: array_like, shape (Nreg)
         the regime codes.
@@ -255,7 +255,7 @@ def isi_distribution(spks, n_bins, globally=False, normalized=True,
 
     Parameters
     ----------
-    spks: array-like, shape(N,variables)
+    spks: array_like, shape(N,variables)
         the spikes descriptions
     n_bins: int
         number of bins in which we want to describe the isi distribution.
@@ -269,9 +269,9 @@ def isi_distribution(spks, n_bins, globally=False, normalized=True,
 
     Returns
     -------
-    isi: array-like, shape (M, Nelements)
+    isi: array_like, shape (M, Nelements)
         frequencies or probabilities of the ISI in the given intervals
-    bin_edges: array-like, shape (M+1,)
+    bin_edges: array_like, shape (M+1,)
         edges of the intervals
 
     """
@@ -307,7 +307,7 @@ def isis_computation(spks, logscale=False):
 
     Parameters
     ----------
-    spks: array-like, shape (N,variables)
+    spks: array_like, shape (N,variables)
         description of the spikes detected.
     logscale: bool
         return the histogram in x logscale.
@@ -340,12 +340,12 @@ def temporal_si(spks):
 
     Parameters
     ----------
-    spks: array-like, shape (N,variables)
+    spks: array_like, shape (N,variables)
         description of the spikes detected.
 
     Returns
     -------
-    spk_intervals: array-like, shape(Nt-1,)
+    spk_intervals: array_like, shape(Nt-1,)
         the intevals between the spikes times.
 
     """
@@ -365,7 +365,7 @@ def count_into_bursts(spks, bursts, elements=None):
 
     Parameters
     ----------
-    spks: array-like, shape (N,variables)
+    spks: array_like, shape (N,variables)
         description of the spikes detected.
     bursts: list of arrays
         the active times in each burst.
@@ -376,7 +376,7 @@ def count_into_bursts(spks, bursts, elements=None):
 
     Returns
     -------
-    counts: array-like, shape(n)
+    counts: array_like, shape(n)
         number of spikes in the time position into the bursts.
 
     """
@@ -430,14 +430,14 @@ def general_count(c_xy, max_l):
 
     Parameters
     ----------
-    c_xy: array-like, shape(Nneur, Nneur, maxl+1)
+    c_xy: array_like, shape(Nneur, Nneur, maxl+1)
         the number of the coincident spikes given a lag time.
     max_l: int
         maximum size of a bursts.
 
     Returns
     -------
-    counts: array-like, shape(max_l)
+    counts: array_like, shape(max_l)
         number of spikes in a temporal position of a bursts.
 
     """
@@ -466,39 +466,47 @@ def prob_spk_xy(spks, max_l=8, normalized=False):
 
     Returns
     -------
-    probs: array-like, shape(Nneur, Nneur, maxl+1)
+    probs: array_like, shape(Nneur, Nneur, maxl+1)
         the number of the coincident spikes given a lag time.
-    elements: array-like
+    elements: array_like
         the code for each element.
+    regimes: array_like
+        the regimes in the spks.
 
     TODO
     ----
     Extract normalization
-    Between different regimes.
+    Update normalization
 
     """
 
     # Initialization
     elements = np.unique(spks[:, 1])
-    probs = np.zeros((elements.shape[0], elements.shape[0], max_l+1))
+    regimes = np.unique(spks[:, 2])
     n = elements.shape[0]
+    m = regimes.shape[0]
+    probs = np.zeros((n, n, m, max_l+1))
 
     # Loop for each timelag possible
     for timelag in range(max_l+1):
         # Loop for each element pair
         for i in range(n):
             for j in range(i, n):
-                times1 = spks[spks[:, 1] == i, 0]
-                times2 = spks[spks[:, 1] == j, 0]
-                if i == j:
-                    inttimes = np.intersect1d(times1, times2+timelag)
-                    probs[i, j, timelag] = inttimes.shape[0]
-                else:
-                    inttimes = np.intersect1d(times1+timelag, times2)
-                    probs[i, j, timelag] = inttimes.shape[0]
-                    inttimes = np.intersect1d(times1, times2+timelag)
-                    probs[j, i, timelag] = inttimes.shape[0]
+                for k in range(m):
+                    times1 = spks[np.logical_and(spks[:, 1] == i,
+                                                 spks[:, 2] == k), 0]
+                    times2 = spks[np.logical_and(spks[:, 1] == j,
+                                                 spks[:, 2] == k), 0]
+                    if i == j:
+                        inttimes = np.intersect1d(times1, times2+timelag)
+                        probs[i, j, k, timelag] = inttimes.shape[0]
+                    else:
+                        inttimes = np.intersect1d(times1+timelag, times2)
+                        probs[i, j, k, timelag] = inttimes.shape[0]
+                        inttimes = np.intersect1d(times1, times2+timelag)
+                        probs[j, i, k, timelag] = inttimes.shape[0]
     # Normalization (extern function, and compute intially normalization?)
+    ### TODO: can be normalized in many ways
     if normalized:
         diag = np.diag(probs[:, :, 0])
         for z in range(max_l+1):
@@ -507,7 +515,7 @@ def prob_spk_xy(spks, max_l=8, normalized=False):
             aux_l = np.divide(np.tril(probs[:, :, z])-d, diag)
             probs[:, :, z] = aux_u + aux_l
 
-    return probs, elements
+    return probs, elements, regimes
 
 
 def counts_normalization(counts, max_t):
@@ -516,13 +524,17 @@ def counts_normalization(counts, max_t):
 
     Parameters
     ----------
-    counts: array-like, shape(n,n,nlags)
+    counts: array_like, shape(n,n,nlags)
         the counts of the coincident spikes considering lag times.
 
     Returns
     -------
-    probs: array-like, shape(Nneur, Nneur, maxl+1)
+    probs: array_like, shape(Nneur, Nneur, maxl+1)
         the number of the coincident spikes given a lag time.
+
+    TODO
+    ----
+    Update
     """
 
     s = counts.shape

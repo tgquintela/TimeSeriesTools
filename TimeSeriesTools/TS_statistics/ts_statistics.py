@@ -9,6 +9,19 @@ from itertools import product
 import numpy as np
 
 
+def prob_markov_proc_ind(X_info, bin_info):
+    """
+    Parameters
+    ----------
+    X_info: tuple or list of arrays
+        arrays between which we compute probabilities.
+    bin_info: tuple or list of ints or arrays
+        info about discretization
+
+    """
+    return probs
+
+
 def prob_xy(X, bins=0, maxl=0):
     """Wrapper for prob_xy_ind. It computes the probability for all a matrix of
     dynamics.
@@ -29,7 +42,7 @@ def prob_xy(X, bins=0, maxl=0):
 
     # Formating inputs and preparing needed variables
     values = np.unique(X)
-    if not bins:
+    if bins == 0:
         bins = values.shape[0]
     bins_edges = np.histogram2d(values, values, bins=bins)[1:]
     n_bins = bins_edges[0].shape[0]-1
@@ -47,7 +60,7 @@ def prob_xy(X, bins=0, maxl=0):
                                                            bins_edges,
                                                            tlag)
 
-    return probs
+    return probs, bins_edges
 
 
 def prob_xy_ind(x, y, bins=0, timelag=0):
@@ -125,8 +138,13 @@ def prob_x(X, n_bins=0, individually=True):
     bins_edges: array_like, shape (n_bins+1,)
         the edges of the bins.
 
+    TODO
+    ----
+    Danger density, normalize yourself
+
     """
     values = np.unique(X)
+    X = X.reshape((X.shape[0], 1)) if len(X.shape) == 1 else X
     if np.all(n_bins == 0) or not np.any(n_bins):
         n_bins = values.shape[0]
     bins_edges = np.histogram(values, bins=n_bins)[1]
