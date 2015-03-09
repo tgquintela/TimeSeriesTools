@@ -44,6 +44,8 @@ def value_discretization(Y, discret_info, method, kwargs):
 ###############################################################################
 ############################### threshold_based ###############################
 ###############################################################################
+## TODO: Create an object which save the information and generalize the task
+## for other systems and arrays. fit transform
 def discretize_with_thresholds(array, thres, values=[]):
     '''This function uses the given thresholds in order to discretize the array
     in different possible values, given in the variables with this name.
