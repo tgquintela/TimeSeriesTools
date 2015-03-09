@@ -213,16 +213,55 @@ def threshold_binning_builder(array, n_bins):
 
     """
 
-    ## 0. Needed variables
+    ## 0. Create needed variables and format inputs
+    # Number of dimensions of array
+    ndim = len(array.shape)
     # Number of elements
-    n_elem = 1 if len(array.shape) == 1 else array.shape[1]
+    n_elem = 1 if ndim == 1 else array.shape[1]
+    # Possible values
+    values = np.unique(array)
+    # Individually
+    individually = True
+    # Format array
+    array = array if ndim == 2 else array.reshape((array.shape[0], 1))
+    # Description of the possible situations
+    situation1 = n_bins == 0 or n_bins is None or not np.any(n_bins)
+    situation2 = type(n_bins) == int
+    situation3 = type(n_bins) in [list, tuple, np.ndarray]
+    situation3check1 = np.all(np.array(n_bins) == type(n_bins[0]))
+    situation3check2 = np.array(n_bins).shape[0] == n_elem
+    situation3a = type(n_bins[0]) == int
+    situation3b = type(n_bins[0]) == np.ndarray
+    # Prepare bins
+    if situation1:
+        n_bins = values.shape[0]
+    elif situation2:
+        pass
+    elif situation3:
+        assert situation3check1
+        assert situation3check2
+        if situation3a:
+            individually = True
+        elif situation3b:
+            individually = True
+        else:
+            raise Exception("Not correct n_bins input.")
+
     ## 1. Binning thresholds
     # bins edges
-    _, bins_edges = np.histogram(array.reshape(-1), n_bins)
-    # format
-    thres = tuple([bins_edges for i in range(n_elem)])
+    if not individually:
+        _, bins_edges = np.histogram(array.reshape(-1), n_bins)
+        thres = bins_edges
+    else:
+        thres = []
+        for i in range(n_elem):
+            _, bins_edges = np.histogram(array[:, i], n_bins)
+            thres.append(bins_edges)
+            thres = tuple(thres)
+
     ## 2. Format to matrix thresholding
     thres = threshold_formatter(array, thres)
+
     return thres
 
 
