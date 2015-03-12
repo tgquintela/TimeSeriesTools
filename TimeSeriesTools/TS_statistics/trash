@@ -1,0 +1,15 @@
+
+# trash
+
+######## Code from function prob_xy_ind
+#    probs = np.zeros((values1.shape[0], values2.shape[0]))
+#    for i in range(values1):
+#        for j in range(values2):
+#            val1 = values1[i]
+#            val2 = values2[j]
+#            aux = np.logical_and(x == val1, y == val2)
+#            probs[i, j] = np.sum(aux)
+#
+#    ## 5. Normalization
+#    if normalize:
+#        probs /= np.sum(probs)
