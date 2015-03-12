@@ -69,12 +69,13 @@ def discretize_with_thresholds(array, thres, values=[]):
     ## Formatting and building variables needed
     inshape = array.shape
     thres = threshold_formatter(array, thres)
+    if thres is None:
+        return array
     # Number of threshold values
     nd_thres = thres.shape[2]
     # Setting values
     if values == []:
         values = range(nd_thres-1)
-    elif type(thres) == list:
         assert nd_thres == len(values)+1
     ## 2. Fill the new vector discretized signal to the given values
     aux = np.zeros(array.shape)
@@ -111,7 +112,9 @@ def threshold_formatter(array, thres):
     n_elem = 1 if nd_input == 1 else array.shape[1]
 
     # From an input of a float
-    if type(thres) == float:
+    if thres is None:
+        return None
+    elif type(thres) == float:
         nd_thres = 1
         thres = thres*np.ones((array.shape[0], n_elem, nd_thres))
 
@@ -228,13 +231,14 @@ def threshold_binning_builder(array, n_bins):
     situation1 = n_bins == 0 or n_bins is None or not np.any(n_bins)
     situation2 = type(n_bins) == int
     situation3 = type(n_bins) in [list, tuple, np.ndarray]
-    situation3check1 = np.all(np.array(n_bins) == type(n_bins[0]))
-    situation3check2 = np.array(n_bins).shape[0] == n_elem
-    situation3a = type(n_bins[0]) == int
-    situation3b = type(n_bins[0]) == np.ndarray
+    if situation3:
+        situation3check1 = np.all(np.array(n_bins) == type(n_bins[0]))
+        situation3check2 = np.array(n_bins).shape[0] == n_elem
+        situation3a = type(n_bins[0]) == int
+        situation3b = type(n_bins[0]) == np.ndarray
     # Prepare bins
     if situation1:
-        n_bins = values.shape[0]
+        return None
     elif situation2:
         pass
     elif situation3:
@@ -257,7 +261,7 @@ def threshold_binning_builder(array, n_bins):
         for i in range(n_elem):
             _, bins_edges = np.histogram(array[:, i], n_bins)
             thres.append(bins_edges)
-            thres = tuple(thres)
+        thres = tuple(thres)
 
     ## 2. Format to matrix thresholding
     thres = threshold_formatter(array, thres)
