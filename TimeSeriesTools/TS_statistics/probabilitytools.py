@@ -83,3 +83,16 @@ def compute_marginal_probs(probs, marginal_vars):
         p_x = np.tensordot(np.ones(nstates), p_x, axes=np.array([0, d]))
 
     return p_x
+
+
+def compute_division_probs(probs1, probs2, correspondences):
+    """
+    """
+    return probs
+
+
+def compute_product_sum():
+    """
+    TODO: Not to sum nan or inf values.
+    """
+    return measure

@@ -18,40 +18,9 @@ from TimeSeriesTools.Transformation.value_discretization import \
     threshold_binning_builder, discretize_with_thresholds
 
 
-def build_ngram_arrays(X, post, pres, L):
-    """This matrix build another one with all the given arrays and compute
-    the lags of the pres variables.
-
-    Parameters
-    ----------
-    X: array_like
-        discretize dynamics.
-    post: list
-        the indices of the variables that are posterior.
-    pres: list
-        the indices of the variables that are previous and we want to compute
-        the lag arrays.
-    L: int
-        the max lag to compute. It is computed from lag 1 to lag L.
-
-    Returns
-    -------
-    Y: array_like
-        the given arrays preparated to compute the joint probability.
+def build_ngram_from_arrays(post, pres, L):
     """
-
-    npost = len(post)
-    npres = len(pres)
-    nvars = npost+npres*(L+1)
-    nt = X.shape[0]
-
-    Y = np.zeros((nt-L, nvars))
-    for i in range(npost):
-        Y[:, i] = X[:nt-L, post[i]]
-    for i in range(npres):
-        for l in range(1, L+1):
-            Y[:, npost+i*npres+l-1] = X[l:nt-L+l, pres[i]]
-
+    """
     return Y
 
 
@@ -483,7 +452,7 @@ def compute_joint_probs(Y_t, values, normalize=True):
     values: list or numpy.ndarray
         the values of each stochastic variable can take.
     normalize: boolean
-
+        if we return a normalized array.
     Returns
     -------
     probs: array_like
