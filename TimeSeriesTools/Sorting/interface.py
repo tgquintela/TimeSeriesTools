@@ -237,10 +237,6 @@ def regime_detection_ui(db, ):
     return regime_detections
 
 
-
-
-
-
 def aggregation_detections():
 
     # Select parameters for a correct aggregation

@@ -15,9 +15,9 @@ import numpy as np
 
 
 def lagged_PearsonCorrelation(X, timelag=0):
-    '''Computes the Pearson Correlation pairwise in between the lagged
+    """Computes the Pearson Correlation pairwise in between the lagged
     time-series of all the elements of the system.
-    '''
+    """
 
     # initialization
     n = X.shape[1]

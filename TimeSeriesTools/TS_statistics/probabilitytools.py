@@ -81,7 +81,6 @@ def compute_marginal_probs(probs, marginal_vars):
     for d in marginal_vars:
         nstates = p_x.shape[d]
         p_x = np.tensordot(np.ones(nstates), p_x, axes=np.array([0, d]))
-
     return p_x
 
 

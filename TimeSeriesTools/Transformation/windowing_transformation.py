@@ -114,7 +114,8 @@ def windowing_transformation_f(Y, window_info, step, borders=True,
         Yt = np.ones((N, m, nt))*borders
 
     # 1. Transformation
-    i = -w_init
+#    i = -w_init
+    i = 0
     for p in points:
         ind_p = wind(p)
         aux = transf(Y[ind_p, :])
@@ -136,34 +137,34 @@ def windowing_transformation_f(Y, window_info, step, borders=True,
 
 #############################
 ###### TO DEPRECATE #########
-def windowing_discrete_transformation1(Y, times, window_info, step,
-                                       trans=lambda x: x.mean()):
-    """Transformation by windowing a time-series and applying to each window
-    a transformation given.
-    """
-
-    # Required transformations
-    if type(window_info) == int:
-        window_info = [-window_info/2, window_info/2]
-
-    # Variables needed
-    init = - window_info[0]
-    final = Y.shape[0] - window_info[1]
-    t_iter = times[init:final]
-    n_neu = Y.shape[1]
-
-    # Determine the number of descriptor per time.
-    try:
-        b_0 = np.logical_and(times > 1, times < window_info[0]+window_info[1])
-        nt = collapse3waveform(Y[b_0, 0], init).shape[0]
-    except:
-        nt = 1
-
-    # Build a descriptor matrix
-    Yt = np.zeros((Y.shape[0], Y.shape[1], nt))
-    for i in t_iter:
-        bool_i = np.logical_and(times >= i+window_info[0],
-                                times <= i+window_info[1])
-        Yt[i, :, :] = collapse3waveform_matrix(Y[bool_i, :], init, 1)
-
-    return Yt
+#def windowing_discrete_transformation1(Y, times, window_info, step,
+#                                       trans=lambda x: x.mean()):
+#    """Transformation by windowing a time-series and applying to each window
+#    a transformation given.
+#    """
+#
+#    # Required transformations
+#    if type(window_info) == int:
+#        window_info = [-window_info/2, window_info/2]
+#
+#    # Variables needed
+#    init = - window_info[0]
+#    final = Y.shape[0] - window_info[1]
+#    t_iter = times[init:final]
+#    n_neu = Y.shape[1]
+#
+#    # Determine the number of descriptor per time.
+#    try:
+#        b_0 = np.logical_and(times > 1, times < window_info[0]+window_info[1])
+#        nt = collapse3waveform(Y[b_0, 0], init).shape[0]
+#    except:
+#        nt = 1
+#
+#    # Build a descriptor matrix
+#    Yt = np.zeros((Y.shape[0], Y.shape[1], nt))
+#    for i in t_iter:
+#        bool_i = np.logical_and(times >= i+window_info[0],
+#                                times <= i+window_info[1])
+#        Yt[i, :, :] = collapse3waveform_matrix(Y[bool_i, :], init, 1)
+#
+#    return Yt

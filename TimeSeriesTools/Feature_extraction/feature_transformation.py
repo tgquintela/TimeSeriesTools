@@ -9,10 +9,10 @@ TODO
 Return also the function class.
 """
 
-import sklearn
+from sklearn.decomposition import PCA, FastICA
 
 
-def feature_transformation(Xt, method_transformation='', **kwargs):
+def feature_transformation(Xt, method_transformation='', kwargs={}):
     """This function acts as a wrapper to all functions of transformation of
     the feature representation of the time-series.
 
@@ -25,10 +25,10 @@ def feature_transformation(Xt, method_transformation='', **kwargs):
     if method_transformation == '':
         Xdec = Xt
     elif method_transformation == 'pca':
-        pca = sklearn.decomposition.PCA()
+        pca = PCA()
         Xdec = pca.fit_transform(Xt)
     elif method_transformation == 'ica':
-        ica = sklearn.decomposition.FastICA()
+        ica = FastICA()
         Xdec = ica.fit_transform(Xt)
 
     # Format outputs ??

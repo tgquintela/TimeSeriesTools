@@ -10,36 +10,36 @@ from scipy import signal
 
 ########################## Wrapper to all functions ###########################
 ###############################################################################
-def general_filtering(Y, method, kwargs):
+def general_filtering(Y, method, parameters={}):
     """Wrapper function to contain all the possible smoothing functions in
     order to be easy and quick usable for other parts of this package.
     """
-
+    assert(len(Y.shape) == 2)
 #    if method == 'order_filter':
-#        Ys = signal.order_filter(Y, **kwargs)
+#        Ys = signal.order_filter(Y, **parameters)
 #    elif method == 'medfilt':
-#        Ys = signal.medfilt(Y, **kwargs)
+#        Ys = signal.medfilt(Y, **parameters)
 #    elif method == 'wiener':
-#        Ys = signal.wiener(Y, **kwargs)
+#        Ys = signal.wiener(Y, **parameters)
 #    elif method == 'lfilter':
-#        Ys = signal.lfilter(Y, **kwargs)
+#        Ys = signal.lfilter(Y, **parameters)
 #    elif method == 'filtfilt':
-#        Ys = signal.filtfilt(Y, **kwargs)
-    if method == 'savgol_filter':
-        Ys = signal.savgol_filter(Y, **kwargs)
-    elif method == 'savitzky_golay':
-        Ys = savitzky_golay_matrix(Y, **kwargs)
+#        Ys = signal.filtfilt(Y, **parameters)
+#    if method == 'savgol_filter':
+#        Ys = signal.savgol_filter(Y, **parameters)
+    if method == 'savitzky_golay':
+        Ys = savitzky_golay_matrix(Y, **parameters)
     elif method == 'weighted_MA':
-        Ys = smooth_weighted_MA_matrix(Y, **kwargs)
+        Ys = smooth_weighted_MA_matrix(Y, **parameters)
     elif method == 'fft_passband':
-        Ys = fft_passband_filter(Y, **kwargs)
+        Ys = fft_passband_filter(Y, **parameters)
     elif method == 'reweighting':
-        Ys = general_reweighting(Y, **kwargs)
+        Ys = general_reweighting(Y, **parameters)
     ## DISCRETE TS
     elif method == 'collapse':
-        Ys = collapser(Y, **kwargs)
+        Ys = collapser(Y, **parameters)
     elif method == 'substitution':
-        Ys = substitution(Y, **kwargs)
+        Ys = substitution(Y, **parameters)
 
     return Ys
 
@@ -109,8 +109,8 @@ def savitzky_golay_matrix(Y, window_size, order):
     return Ys
 
 
-def smooth_weighted_MA_matrix(Y, window_len=11, window='hanning', *args):
-    '''Smooth the data using a window with requested size.
+def smooth_weighted_MA_matrix(Y, window_len=11, window='hanning', args=[]):
+    """Smooth the data using a window with requested size.
     This method is based on the convolution of a scaled window with the signal.
     The signal is prepared by introducing reflected copies of the signal
     (with the window size) in both ends so that transient parts are minimized
@@ -154,15 +154,15 @@ def smooth_weighted_MA_matrix(Y, window_len=11, window='hanning', *args):
     More information
     ----------------
     TODO: vectorization. np.vectorize?
-    '''
+    """
     Ys = np.zeros(Y.shape)
     for i in range(Y.shape[1]):
-        Ys[:, i] = smooth_weighted_MA(Y[:, i], window_len, window, *args)
+        Ys[:, i] = smooth_weighted_MA(Y[:, i], window_len, window, args)
     return Ys
 
 
 def fft_passband_filter(y, f_low=0, f_high=1, axis=0):
-    '''Pass band filter using fft for real 1D signal.
+    """Pass band filter using fft for real 1D signal.
 
     Parameters
     ----------
@@ -205,7 +205,7 @@ def fft_passband_filter(y, f_low=0, f_high=1, axis=0):
     .. [3] Belle A. Shenoi, Introduction to digital signal processing and
        filter design. John Wiley and Sons(2006) p.120. ISBN 978-0-471-46482-2
 
-    '''
+    """
 
     # Length of the transformed signal
     n = y.shape[axis]
@@ -256,8 +256,8 @@ def fft_passband_filter(y, f_low=0, f_high=1, axis=0):
 
 ################## 1-array smoothing
 #############################################
-def smooth_weighted_MA(x, window_len=11, window='hanning', *args):
-    '''Smooth the data using a window with requested size.
+def smooth_weighted_MA(x, window_len=11, window='hanning', args=[]):
+    """Smooth the data using a window with requested size.
     This method is based on the convolution of a scaled window with the signal.
     The signal is prepared by introducing reflected copies of the signal
     (with the window size) in both ends so that transient parts are minimized
@@ -306,7 +306,7 @@ def smooth_weighted_MA(x, window_len=11, window='hanning', *args):
     TODO: the window parameter could be the window itself if an array instead
           of a string
     NOTE: length(output) != length(input), to correct this:
-    '''
+    """
 
     ## 0. Check inputs
     type0 = ['flat']
@@ -326,11 +326,10 @@ def smooth_weighted_MA(x, window_len=11, window='hanning', *args):
         return x
     if not window in type0 + type1 + type2 + type3 + type4 + type5 + type6:
         raise ValueError("Window is on of the possible values.")
-    if window in type3 and len(args) < 0:
+    if window in type3 and len(args) <= 0:
         raise ValueError("Window selected needs an extra parameter.")
 
     ## 1. Creation of the window
-    s = np.r_[x[window_len-1:0:-1], x, x[-1:-window_len:-1]]
     if window in type0:  # moving average
         w = np.ones(window_len, 'd')
     elif window in type1:
@@ -340,17 +339,21 @@ def smooth_weighted_MA(x, window_len=11, window='hanning', *args):
         w = eval('signal.get_window('+inputs+',window_len)')
     elif window in type3:
         inputs = "('"+window+"',"+str(args[0])+")"
-        w = eval('signal.get_window('+inputs+',window_len')
+        w = eval('signal.get_window('+inputs+',window_len)')
     elif window in type4:
         inputs = "('"+window+"',"+str(args[0])+','+str(args[1])+")"
-        w = eval('signal.get_window('+inputs+',window_len')
-    elif window in type5:
-        w = eval(window+'(s,args[0])')
-    elif window in type6:
-        w = eval(window+'(s)')
+        w = eval('signal.get_window('+inputs+',window_len)')
 
     ## 2. Convolution
-    y = np.convolve(w/w.sum(), s, mode='valid')
+    s = np.r_[x[window_len-1:0:-1], x, x[-1:-window_len:-1]]
+    if window in type5:
+        y = eval(window+'(s, args[0])')
+        y = y[window_len/2:len(y)-window_len/2]
+    elif window in type6:
+        y = eval(window+'(s)')
+        y = y[window_len/2:len(y)-window_len/2]
+    else:
+        y = np.convolve(w/w.sum(), s, mode='valid')
 
     ## 3. Format output: Same shape as input
     if window_len % 2:
@@ -461,8 +464,8 @@ from scipy.stats import tmean, scoreatpercentile
 
 
 def trim_mean(arr, proportion):
-    '''
-    '''
+    """
+    """
     #TODO: windowing (window len) and avoid error try:
     # except: np.sort(p)[window_len/2]
     percent = proportion*100.
@@ -473,7 +476,7 @@ def trim_mean(arr, proportion):
 
 
 def alpha_trim_window(window, alpha):
-    '''This function built a window in which weight each time in order to do
+    """This function built a window in which weight each time in order to do
     the moving average for each window. It prepares the window with the
     weights in order to perform the trimmed average of the window.
     When the alpha is too big we have the median filter.
@@ -514,7 +517,7 @@ def alpha_trim_window(window, alpha):
        The Leading Edge 26 (1), January 2007, p16-20. doi:10.1190/1.2431821
     .. [2] http://subsurfwiki.org/wiki/Smoothing_filter
 
-    '''
+    """
     # calculate upper and lower limits
     percent = alpha * 100.
     lower_limit = scoreatpercentile(window, percent/2)
@@ -644,7 +647,7 @@ def collapser(regimes, reference, collapse_info):
             # Collapsing to
             APindices = collapse[i][val](APbool)
             # Inputation the result
-            event_ts[APindices, i] = val
+            event_ts[APindices-1, i] = val
 
     return event_ts
 
@@ -670,7 +673,7 @@ def general_collapser_func(APbool, method):
 
     ## 1. Preparing for collapsing
     # Obtaining ups and downs
-    diffe = np.diff(APbool, axis=0)
+    diffe = np.diff(APbool.astype(int), axis=0)
     ups = np.where(diffe == 1)[0] + 1
     downs = np.where(diffe == -1)[0] + 1
     # Correcting the borders
@@ -680,6 +683,7 @@ def general_collapser_func(APbool, method):
         ups = np.hstack([np.array([0]), ups])
     # Ranges in which there are changes
     ranges = np.vstack([ups, downs]).T
+    assert(len(ranges.shape) == 2)
 
     ## 2. Collpase process
     # Preparing for collapsing
@@ -719,13 +723,13 @@ def substitution(X, subs={}):
 
     # Substitution
     for val in subs.keys():
-        indexs = X.where(X == val)
+        indexs = np.where(X == val)
         X[indexs] = subs[val]
 
     return X
 
 
-def general_reweighting(Y, method, kwargs):
+def general_reweighting(Y, method, kwargs={}):
     """The general reweighting methods to change the values of the time series
     depending of the global value of the system. It could be used in spiking
     systems in which we want to weight more the activity of spiking alone than

@@ -12,10 +12,12 @@ import numpy as np
 
 ############################# auxiliary functions #############################
 ###############################################################################
-def aggregating_ups_downs(Yt, n, desc=''):
+def aggregating_ups_downs(Yt, n, desc='normal'):
     ## TODO: 2 ways. Measure or number
-
-    neur = np.array(range(Yt.shape[1]))
+    logi = len(Yt.shape) == 1
+    Yt = np.atleast_2d(Yt).T
+    nneur = Yt.shape[1]
+    neur = np.arange(nneur)
     Ytt = np.zeros(Yt.shape)
     n1 = (n-1)*2+1
     for neu in neur:
@@ -25,7 +27,9 @@ def aggregating_ups_downs(Yt, n, desc=''):
             if desc == 'normal':
                 Ytt[idx[i]] = np.sum(y)
             elif desc == 'shape':
-                Ytt[idx[i]] = np.sum(y)/y.shape[0]
+                Ytt[idx[i]] = np.sum(y)/float(len(y))
+    if logi:
+        Ytt = Ytt.squeeze()
     return Ytt
 
 

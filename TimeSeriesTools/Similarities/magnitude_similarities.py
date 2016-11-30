@@ -13,7 +13,7 @@ from rpy2.robjects.numpy2ri import numpy2ri
 from rpy2.robjects.numpy2ri import ri2numpy
 
 
-def general_dtw(ts1, ts2, method, kwargs):
+def general_dtw(ts1, ts2, method, kwargs={}):
     """The implementation of the dynamic time warping measure between two ts.
 
     Parameters

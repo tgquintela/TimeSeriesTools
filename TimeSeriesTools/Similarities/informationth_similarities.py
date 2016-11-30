@@ -10,7 +10,8 @@ Discretization for transformation ts module
 
 from sklearn.metrics import mutual_info_score
 import numpy as np
-from pyCausality.TimeSeries.Mesaures.measures import entropy
+from ..Measures.information_theory_measures import entropy
+from ..TS_statistics.ts_statistics import prob_xy, prob_x
 
 
 def mutualInformation(X, bins):
@@ -23,8 +24,8 @@ def mutualInformation(X, bins):
     MI = np.zeros((n, n))
 
     # Loop over the possible combinations of pairs
-    for i in range(X.shape):
-        for j in range(i, X.shape):
+    for i in range(n):
+        for j in range(i, n):
             aux = mutualInformation_1to1(X[:, i], X[:, j], bins)
             # Assignation
             MI[i, j] = aux
@@ -73,20 +74,20 @@ def conditional_entropy(x, y):
     """
     # Discretized signals
     ## xy and number of regimes
-    p_xy = prob_xy(x, y)
-    p_x = prob_x(x)
-    p_y = prob_x(y)
+    p_xy, _, _ = prob_xy(np.stack([x, y]).T)
+    p_x, _, _ = prob_x(x)
+    p_y, _, _ = prob_x(y)
 
     # Conditional probability
     p_x_y = np.divide(p_xy, p_y)
     # Sum over possible combination of regimes
-    H_x_y = np.sum(p_xy, np.log(p_x_y))
+    H_x_y = np.dot(p_xy, np.log(p_x_y))
 
     return H_x_y
 
 
-def information_GCI_ind(X, bins):
-    ''' Baseline method to compute scores based on Information Geometry Causal
+def information_GCI_ind(X, bins=None):
+    """Baseline method to compute scores based on Information Geometry Causal
     Inference, it boils down to computing the difference in entropy between
     pairs of variables:    scores(i, j) = H(j) - H(i)
 
@@ -110,14 +111,13 @@ def information_GCI_ind(X, bins):
     Intelligence (UAI-2010).
     http://event.cwi.nl/uai2010/papers/UAI2010_0121.pdf
 
-    '''
-    ## DOUBT: Only for discrete signals?
+    """
+    ## Only for discrete signals!!!
     # Compute the entropy
-    if bins is None:
-        H = entropy(X)
+    H = np.array([entropy(X[:, i]) for i in range(X.shape[1])])
 
     ## Compute the scores as entropy differences (vectorized :-))
-    n = H.shape[0]
+    n = len(H)
     scores = np.zeros(shape=(n, n))
 
     ## Loop over all the possible pairs of elements

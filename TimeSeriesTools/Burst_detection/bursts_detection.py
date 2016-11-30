@@ -10,7 +10,7 @@ import numpy as np
 import math
 
 
-def general_burst_detection(spks, method='', **kwargs):
+def general_burst_detection(spks, method='', kwargs={}):
     """Burst detection is the problem of group the spikes into bursts
     considering temporal information and temporal density. Usually is done with
     spikes produced for the same element, but in this package we consider the
@@ -86,7 +86,6 @@ def kleinberg_burst_detection(spks, s=2, gamma=1):
 ############################ Under implementation #############################
 ###############################################################################
 def kleinberg(spks, s=2, gamma=1):
-
     # Control of inputs
     if s <= 1:
         raise ValueError("s must be greater than 1!")

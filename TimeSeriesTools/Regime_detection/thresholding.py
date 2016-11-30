@@ -49,17 +49,16 @@ def discretize_with_thresholds(array, thres, values=[]):
     else:
         assert thres.shape[0] == len(values)-1
     n = array.shape[0]
-    mini = np.array([0]*n)*(array.max()-array.min()) + array.min()*np.array([1]*n)
+    mini = np.array([0]*n)*(array.max()-array.min()) +\
+        array.min()*np.array([1]*n)
     maxi = np.array([1]*n)*array.max()
     thres = np.hstack([mini, thres.T, maxi]).T
 
     ## 2. Fill the new vector discretized signal to the given values
     aux = np.zeros(array.shape)
     for i in range(len(values)):
-        indices = np.logical_and(array >= thres[i,:], array <= thres[i+1,:])
+        indices = np.logical_and(array >= thres[i, :], array <= thres[i+1, :])
         indices = np.nonzero(indices)[0].astype(int)
         aux[indices] = values[i]
 
     return aux
-
-

@@ -8,6 +8,16 @@ time-series for obtaining important statistics.
 import numpy as np
 
 
+def parse_spks(spks):
+    if type(spks) == tuple:
+        times_event, elements_event, regimes_event = spks
+    elif type(spks) == np.ndarray:
+        times_event = spks[:, 0]
+        elements_event = spks[:, 1]
+        regimes_event = spks[:, 2]
+    return times_event, elements_event, regimes_event
+
+
 def prob_regimes_x(spks, max_t=None, normalized=False):
     """Estimation of the probability of each element to be in an specific
     state or regime. It is done from the sparse representation of the dynamics.
@@ -38,17 +48,18 @@ def prob_regimes_x(spks, max_t=None, normalized=False):
     """
 
     # Initialization
-    elements = np.unique(spks[:, 1])
-    regimes = np.unique(spks[:, 2])
+    times_event, elements_event, regimes_event = parse_spks(spks)
+    elements = np.unique(elements_event)
+    regimes = np.unique(regimes_event)
     if max_t is None:
-        max_t = np.max(spks[:, 0])
+        max_t = np.max(times_event)
 
     probs = np.zeros((elements.shape[0], regimes.shape[0]))
 
     for i in range(elements.shape[0]):
         for j in range(regimes.shape[0]):
-            indices = np.logical_and(spks[:, 1] == elements[i],
-                                     spks[:, 2] == regimes[j])
+            indices = np.logical_and(elements_event == elements[i],
+                                     regimes_event == regimes[j])
             num = indices.nonzero()[0].shape[0]
             if normalized:
                 probs[i, j] = num/float(max_t)
@@ -63,7 +74,7 @@ def temporal_counts(spks, normalized=False, collapse_reg=True):
 
     Parameters
     ----------
-    spks: array_like, shape (N,variables)
+    spks: tuple of array_like, shape (N,variables)
         description of the spikes detected.
     normalized: bool
         return probabilities of spike in each active time for for any element.
@@ -82,36 +93,37 @@ def temporal_counts(spks, normalized=False, collapse_reg=True):
     """
 
     # Temporal counts for any regime
+    times_event, elements_event, regimes_event = parse_spks(spks)
     if collapse_reg:
         # "Active" times
-        utimes = np.unique(spks[:, 0])
+        utimes = np.unique(times_event)
         # Regimes
         regimes = None
         # Counts
         counts = np.zeros(utimes.shape)
         for i in range(utimes.shape[0]):
-            counts[i] = np.sum(spks[:, 0] == utimes[i])
+            counts[i] = np.sum(times_event == utimes[i])
 
     # Temporal count for each regime
     else:
         # "Active" times
-        utimes = np.unique(spks[:, 0])
+        utimes = np.unique(times_event)
         # Regimes
-        regimes = np.unique(spks[:, 2])
+        regimes = np.unique(regimes_event)
         # Counts
         counts = np.zeros((utimes.shape[0], regimes.shape[0]))
         for i in range(utimes.shape[0]):
             for j in range(regimes.shape[0]):
-                indices = np.logical_and(spks[:, 0] == utimes[i],
-                                         spks[:, 2] == regimes[j])
+                indices = np.logical_and(times_event == utimes[i],
+                                         regimes_event == regimes[j])
                 counts[i, j] = np.sum(indices)
 
     # Normalization
     if normalized:
         # Number of elemens
-        n = np.unique(spks[:, 1]).shape[0]
+        n = np.unique(elements_event).shape[0]
         # Times available
-        max_t = np.max(spks[:, 0])
+        max_t = np.max(times_event)
         # Probability in times and elements
         probs = counts/float(max_t)/float(n)
     else:
@@ -141,18 +153,19 @@ def temporal_average_counts(spks, window=0, collapse_reg=True):
         times in which the system has at least one element active.
     regimes: None or array_like
         the regime codes.
-    """
 
-    utimes = np.unique(spks[:, 0])
-    regimes = np.unique(spks[:, 2]) if not collapse_reg else None
+    """
+    times_event, _, regimes_event = parse_spks(spks)
+    utimes = np.unique(times_event)
+    regimes = np.unique(regimes_event) if not collapse_reg else None
     if collapse_reg:
         counts = np.zeros(utimes.shape)
         for i in range(utimes.shape[0]):
             # Acumulative logical
-            logical = spks[:, 0] == utimes[i]
+            logical = times_event == utimes[i]
             for t in range(window):
-                aux = np.logical_or(spks[:, 0] == utimes[i]+t,
-                                    spks[:, 0] == utimes[i]-t)
+                aux = np.logical_or(times_event == utimes[i]+t,
+                                    times_event == utimes[i]-t)
                 logical = np.logical_or(aux, logical)
             counts[i] = np.sum(logical)
     else:
@@ -160,12 +173,12 @@ def temporal_average_counts(spks, window=0, collapse_reg=True):
         for i in range(utimes.shape[0]):
             for j in range(regimes.shape[0]):
                 # Acumulative logical
-                logical = np.logical_and(spks[:, 0] == utimes[i],
-                                         spks[:, 2] == regimes[j])
+                logical = np.logical_and(times_event == utimes[i],
+                                         regimes_event == regimes[j])
                 for t in range(window):
-                    aux = np.logical_or(spks[:, 0] == utimes[i]+t,
-                                        spks[:, 0] == utimes[i]-t)
-                    aux = np.logical_and(aux, spks[:, 2] == regimes[j])
+                    aux = np.logical_or(times_event == utimes[i]+t,
+                                        times_event == utimes[i]-t)
+                    aux = np.logical_and(aux, regimes_event == regimes[j])
                     logical = np.logical_or(aux, logical)
                 counts[i, j] = np.sum(logical)
 
@@ -208,8 +221,8 @@ def temporal_densities(spks, w_limit=10, collapse_reg=True):
         the regime codes.
 
     """
-
-    utimes = np.unique(spks[:, 0])
+    times_event, elements_event, regimes_event = parse_spks(spks)
+    utimes = np.unique(times_event)
 
     if collapse_reg:
         repeated = np.zeros(w_limit+1)
@@ -217,32 +230,33 @@ def temporal_densities(spks, w_limit=10, collapse_reg=True):
         counts = np.zeros((utimes.shape[0], w_limit+1))
         for window in range(w_limit):
             for i in range(utimes.shape[0]):
-                logical = spks[:, 0] == utimes[i]
+                logical = times_event == utimes[i]
                 for t in range(window):
-                    aux = np.logical_or(spks[:, 0] == utimes[i]+t,
-                                        spks[:, 0] == utimes[i]-t)
+                    aux = np.logical_or(times_event == utimes[i]+t,
+                                        times_event == utimes[i]-t)
                     logical = np.logical_or(aux, logical)
                 # Counts and repeated
                 counts[i, window] = np.sum(logical)
-                repeated[window] += count_repeated(spks[logical, 1])
+                repeated[window] += count_repeated(elements_event[logical])
     else:
-        utimes = np.unique(spks[:, 0])
-        regimes = np.unique(spks[:, 2])
+        utimes = np.unique(times_event)
+        regimes = np.unique(regimes_event)
         repeated = np.zeros((w_limit+1, regimes.shape[0]))
         counts = np.zeros((utimes.shape[0], w_limit+1, regimes.shape[0]))
         for window in range(w_limit):
             for i in range(utimes.shape[0]):
                 for j in range(regimes.shape[0]):
-                    logical = np.logical_and(spks[:, 0] == utimes[i],
-                                             spks[:, 2] == regimes[j])
+                    logical = np.logical_and(times_event == utimes[i],
+                                             regimes_event == regimes[j])
                     for t in range(window):
-                        aux = np.logical_or(spks[:, 0] == utimes[i]+t,
-                                            spks[:, 0] == utimes[i]-t)
-                        aux = np.logical_and(aux, spks[:, 2] == regimes[j])
+                        aux = np.logical_or(times_event == utimes[i]+t,
+                                            times_event == utimes[i]-t)
+                        aux = np.logical_and(aux, regimes_event == regimes[j])
                         logical = np.logical_or(aux, logical)
                     # Counts and repeated
                     counts[i, window, j] = np.sum(logical)
-                    repeated[window, j] += count_repeated(spks[logical, 1])
+                    repeated[window, j] +=\
+                        count_repeated(elements_event[logical])
 
     return counts, utimes, repeated, regimes
 
@@ -319,12 +333,13 @@ def isis_computation(spks, logscale=False):
     """
 
     # Initialization
+    times_event, elements_event, _ = parse_spks(spks)
     isis = []
-    elements = np.unique(spks[:, 1])
+    elements = np.unique(elements_event)
     # Loop for computing the ISIs
     for i in range(elements.shape[0]):
-        aux = np.where(spks[:, 1] == elements[i])[0]
-        aux_t = spks[aux, 0]
+        aux = np.where(elements_event == elements[i])[0]
+        aux_t = times_event[aux]
         if logscale:
             isis.append(np.log(np.diff(aux_t)))
         else:
@@ -349,9 +364,9 @@ def temporal_si(spks):
         the intevals between the spikes times.
 
     """
-
+    times_event, _, _ = parse_spks(spks)
     # "Active" times
-    utimes = np.unique(spks[:, 0])
+    utimes = np.unique(times_event)
 
     # Calculate spike intervals
     spk_intervals = np.diff(utimes)
@@ -382,6 +397,7 @@ def count_into_bursts(spks, bursts, elements=None):
     """
 
     ## 0. Set needed variables
+    times_event, elements_event, regimes_event = parse_spks(spks)
     # Number of bursts
     n_bursts = len(bursts)
     # Set bursts correctly
@@ -393,38 +409,40 @@ def count_into_bursts(spks, bursts, elements=None):
     if elements is None:
         pass
     elif elements == []:
-        elements = np.unique(spks[:, 1])
-        m = elements.shape[0]
+        elements = np.unique(elements_event)
+        m = len(elements)
     else:
-        aux = np.zeros(spks.shape[0]).astype(bool)
+        aux = np.zeros(len(times_event)).astype(bool)
         for e in elements:
-            aux = np.logical_or(aux, spks[:, 1] == e)
-        spks = spks[aux, :]
+            aux = np.logical_or(aux, elements_event == e)
+        times_event = times_event[aux]
+        elements_event = elements_event[aux]
+        regimes_event = regimes_event[aux]
         elements = np.array(elements)
-        m = elements.shape[0]
+        m = len(elements)
 
     ## 1. Compute counts
     if elements is None:
         counts = np.zeros(n)
         for i in range(n_bursts):
-            for j in range(bursts.shape[0]):
+            for j in range(len(bursts[i])):
                 l = int(bursts[i][-1]-bursts[i][0])
-                aux = spks[:, 0] == bursts[i][j]
+                aux = times_event == bursts[i][j]
                 counts[l] += np.sum(aux)
     else:
         counts = np.zeros((n, m))
         for k in range(m):
             for i in range(n_bursts):
-                for j in range(bursts.shape[0]):
+                for j in range(len(bursts)):
                     l = int(bursts[i][-1]-bursts[i][0])
-                    aux = np.logical_and(spks[:, 0] == bursts[i][j],
-                                         spks[:, 1] == k)
+                    aux = np.logical_and(times_event == bursts[i][j],
+                                         elements_event == k)
                     counts[l, k] += np.sum(aux)
 
     return counts
 
 
-def general_count(c_xy, max_l):
+def general_count(c_xy, max_l=0):
     """Global count about the relative temporal position of spiking for each
     element.
 
@@ -441,9 +459,8 @@ def general_count(c_xy, max_l):
         number of spikes in a temporal position of a bursts.
 
     """
-
+    max_l = c_xy.shape[2]-1 if max_l == 0 else max_l
     counts = np.zeros(max_l+1)
-
     for i in range(max_l+1):
         if i == 0:
             m = np.triu(c_xy[:, :, 0])
@@ -479,12 +496,13 @@ def prob_spk_xy(spks, max_l=8, normalized=False):
     Update normalization
 
     """
-
     # Initialization
-    elements = np.unique(spks[:, 1])
-    regimes = np.unique(spks[:, 2])
-    n = elements.shape[0]
-    m = regimes.shape[0]
+    times_event, elements_event, regimes_event = parse_spks(spks)
+
+    elements = np.unique(elements_event)
+    regimes = np.unique(regimes_event)
+    n = len(elements)
+    m = len(regimes)
     probs = np.zeros((n, n, m, max_l+1))
 
     # Loop for each timelag possible
@@ -493,10 +511,10 @@ def prob_spk_xy(spks, max_l=8, normalized=False):
         for i in range(n):
             for j in range(i, n):
                 for k in range(m):
-                    times1 = spks[np.logical_and(spks[:, 1] == i,
-                                                 spks[:, 2] == k), 0]
-                    times2 = spks[np.logical_and(spks[:, 1] == j,
-                                                 spks[:, 2] == k), 0]
+                    times1 = times_event[np.logical_and(elements_event == i,
+                                                        regimes_event == k)]
+                    times2 = times_event[np.logical_and(elements_event == j,
+                                                        regimes_event == k)]
                     if i == j:
                         inttimes = np.intersect1d(times1, times2+timelag)
                         probs[i, j, k, timelag] = inttimes.shape[0]
@@ -508,12 +526,13 @@ def prob_spk_xy(spks, max_l=8, normalized=False):
     # Normalization (extern function, and compute intially normalization?)
     ### TODO: can be normalized in many ways
     if normalized:
-        diag = np.diag(probs[:, :, 0])
-        for z in range(max_l+1):
-            d = np.eye(n)*np.diag(probs[:, :, z])
-            aux_u = np.divide(np.triu(probs[:, :, z]).T, diag).T
-            aux_l = np.divide(np.tril(probs[:, :, z])-d, diag)
-            probs[:, :, z] = aux_u + aux_l
+        for r in range(len(regimes)):
+            diag = np.diag(probs[:, :, r, 0])
+            for z in range(max_l+1):
+                d = np.eye(n)*np.diag(probs[:, :, r, z])
+                aux_u = np.divide(np.triu(probs[:, :, r, z]).T, diag).T
+                aux_l = np.divide(np.tril(probs[:, :, r, z])-d, diag)
+                probs[:, :, r, z] = aux_u + aux_l
 
     return probs, elements, regimes
 
@@ -536,11 +555,10 @@ def counts_normalization(counts, max_t):
     ----
     Update
     """
-
     s = counts.shape
     if len(s) == 1:
         probs = counts/float(max_t)
-    elif len(s) == 2:
+    elif len(s) == 3:
         diag = np.diag(counts[:, :, 0])
         n = counts.shape[0]
         max_l = counts.shape[2]

@@ -1,5 +1,14 @@
 
+"""
+Utils_tsstats
+-------------
+Utils to ts_statisctics module.
+
+"""
 import numpy as np
+
+
+_array_like_type = [list, np.ndarray]
 
 
 def build_ngram_arrays(X, post, pres, L):
@@ -72,28 +81,25 @@ def uniform_input_samevals(samevals, X):
         if samevals:
             samevals = [np.unique(X) for i in range(n)]
         else:
+            assert(len(X.shape) == 2)
             samevals = [np.unique(X[:, i]) for i in range(n)]
     else:
-        if type(samevals) == np.ndarray:
-            samevals = [samevals for i in range(n)]
-        elif type(samevals) == list:
-            pass
-
+        assert(type(samevals) in _array_like_type)
+        samevals = [samevals for i in range(n)]
+    assert(type(samevals) == list)
+    assert(all([type(e) in _array_like_type for e in samevals]))
     return samevals
 
 
 def uniform_input_lags(lags, X):
     """Auxiliary function of format inputs of lags.
     """
-
     n = X.shape[1] if len(X.shape) == 2 else 1
-
     if type(lags) == list:
-        flag = np.all([type(e) == list for e in lags])
+        flag = np.all([type(e) in _array_like_type for e in lags])
         if not flag:
             lags = [lags]
-        else:
-            pass
     elif type(lags) == np.ndarray:
         lags = [lags for i in range(n)]
+    assert(type(lags) == list)
     return lags

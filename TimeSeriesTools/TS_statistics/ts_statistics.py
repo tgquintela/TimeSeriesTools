@@ -192,13 +192,13 @@ def prob_ngram_ind(x, y, L, auto=True, samevals=True, normalize=True):
             values = [xvalues, yvalues]
     else:
         if type(samevals) == np.ndarray:
-            xvalues = values
-            yvalues = values
+            xvalues = samevals
+            yvalues = samevals
             values = [xvalues, yvalues]
         elif type(samevals) == list:
             values = samevals
-            xvalues = values[0]
-            yvalues = values[1]
+            xvalues = np.array(values[0])
+            yvalues = np.array(values[1])
 
     ## 1. Formatting arrays as index
     aux = np.ones(x.shape)*np.inf
@@ -218,7 +218,6 @@ def prob_ngram_ind(x, y, L, auto=True, samevals=True, normalize=True):
         yv = np.vstack([y[l:nt-L+l] for l in range(1, L+1)]).T
         # Aggregating
         Xv = np.hstack([xt, xv, yv])
-
     else:
         # Compute dependant
         yv = np.vstack([y[l:nt-L+l] for l in range(1, L+1)]).T
@@ -277,7 +276,7 @@ def prob_xy(X, bins=0, maxl=0, samevals=True):
     discretizor = threshold_binning_builder(X, bins)
     X = discretize_with_thresholds(X, discretizor)
     # needed variables
-    if type(samevals):
+    if type(samevals) == bool:
         if samevals:
             samevals = [np.unique(X) for i in range(n)]
         else:
@@ -293,7 +292,9 @@ def prob_xy(X, bins=0, maxl=0, samevals=True):
     for p in pairs:
         for tlag in range(maxl+1):
             p0, p1 = p[0], p[1]
-            probs[p0, p1, tlag], _, _ = prob_xy_ind(X[:, p0], X[:, p1],
+#            probs[p0, p1, tlag], _, _ = prob_xy_ind(X[:, p0], X[:, p1],
+#                                                    samevals, 0, tlag)
+            probs[p0][p1][tlag], _, _ = prob_xy_ind(X[:, p0], X[:, p1],
                                                     samevals, 0, tlag)
     # Format output
     probs = np.array(probs)
@@ -363,8 +364,8 @@ def prob_xy_ind(x, y, samevals=True, bins=0, timelag=0, normalize=True):
             values = [xvalues, yvalues]
     else:
         if type(samevals) == np.ndarray:
-            xvalues = values
-            yvalues = values
+            xvalues = samevals
+            yvalues = samevals
             values = [xvalues, yvalues]
         elif type(samevals) == list:
             values = samevals
@@ -375,7 +376,7 @@ def prob_xy_ind(x, y, samevals=True, bins=0, timelag=0, normalize=True):
     if timelag > 0:
         x, y = x[timelag:], y[:y.shape[0]-timelag]
     elif timelag < 0:
-        x, y = x[:x.shape[0]-timelag], y[timelag:]
+        x, y = x[:x.shape[0]+timelag], y[-timelag:]
 
     ## 4. Computing probs
     X = np.vstack([x, y]).T
@@ -470,7 +471,7 @@ def compute_joint_probs(Y_t, values, normalize=True):
         for i in range(n_vars):
             values.append(np.unique(Y_t[:, i]))
     elif type(values) == np.ndarray:
-        values = [values for i in range(n_t)]
+        values = [values for i in range(n_vars)]
 
     ## 1. Transform to indexes
     aux = np.ones(Y_t.shape)*np.inf

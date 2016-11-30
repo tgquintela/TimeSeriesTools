@@ -42,7 +42,7 @@ def temporal_discretization(Y, method='ups_downs', kwargs={}):
 ###############################################################################
 def ups_downs_temporal_discretization_matrix(Y, collapse_to='initial',
                                              feats=['augment']):
-    '''Temporal discretization of the Time-series only considering the ups and
+    """Temporal discretization of the Time-series only considering the ups and
     downs changes. The criteria in which are grouped the sequence is a
     consequtive share first derivative. The value of this points will be the
     whole variation along this sequence.
@@ -61,7 +61,7 @@ def ups_downs_temporal_discretization_matrix(Y, collapse_to='initial',
     Yt: array_like, shape (N, M)
         transformed signals in dense representation.
 
-    '''
+    """
 
     # Initialization
     Yt = np.zeros([Y.shape[0], Y.shape[1], len(feats)])
@@ -76,7 +76,7 @@ def ups_downs_temporal_discretization_matrix(Y, collapse_to='initial',
 
 def ups_downs_temporal_discretization(y, collapse_to='initial',
                                       feats=['augment']):
-    '''Temporal discretization of the Time-series only considering the ups and
+    """Temporal discretization of the Time-series only considering the ups and
     downs changes. The criteria in which are grouped the sequence is a
     consequtive share first derivative. The value of this points will be the
     whole variation along this sequence.
@@ -99,7 +99,7 @@ def ups_downs_temporal_discretization(y, collapse_to='initial',
     descriptors: ndarray, shape(N,M)
         descriptors of the sequences collapsed. M = 2 descriptors,
         the total value of the change in the sequence and the shape.
-    '''
+    """
 
     ## 1. Preparing values
     positions = []
@@ -127,7 +127,8 @@ def ups_downs_temporal_discretization(y, collapse_to='initial',
         if collapse_to == 'initial':
             pos = ups
         elif collapse_to == 'center':
-            pos = np.mean([ups, downs], axis=0)
+            # WARNING integer
+            pos = np.mean([ups, downs], axis=0).astype(int)
         elif collapse_to == 'final':
             pos = downs
 

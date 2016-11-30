@@ -5,7 +5,7 @@
 import numpy as np
 
 
-def dtw(x, y, dist=lambda x, y: np.linalg.norm(x - y, ord=1)):
+def dtw(x, y, dist=None):
     """ Computes the DTW of two sequences.
 
     Parameters
@@ -28,6 +28,8 @@ def dtw(x, y, dist=lambda x, y: np.linalg.norm(x - y, ord=1)):
         the optimal wrap path.
 
     """
+    if dist is None:
+        dist = lambda x, y: np.linalg.norm(x - y, ord=1)
 
     # Create array with 2-d
     if len(x.shape) == 1:
@@ -51,14 +53,14 @@ def dtw(x, y, dist=lambda x, y: np.linalg.norm(x - y, ord=1)):
 
     # Exclude init point
     D = D[1:, 1:]
-    cum_dist = D[-1, -1] / sum(D.shape) # Why division?
+    # Why division?
+    cum_dist = D[-1, -1] / sum(D.shape)
     trackeback = _trackeback(D)
 
     return cum_dist, D, trackeback
 
 
 def _trackeback(D):
-
     i, j = np.array(D.shape) - 1
     p, q = [i], [j]
 
@@ -79,6 +81,3 @@ def _trackeback(D):
     p.insert(0, 0)
     q.insert(0, 0)
     return (np.array(p), np.array(q))
-
-
-

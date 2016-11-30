@@ -13,7 +13,7 @@ from feature_extraction import *
 ############################# Auxiliary functions #############################
 ###############################################################################
 def set_threshold_detection(activation, n_ts=10):
-    '''Function to ask for the threshold in order to perform regime detection.
+    """Function to ask for the threshold in order to perform regime detection.
 
     Parameters
     ----------
@@ -31,7 +31,7 @@ def set_threshold_detection(activation, n_ts=10):
     ----
     Plot more than one time serie
     Select transformation and other things of regime_detection
-    '''
+    """
 
     # Subsampling
     if n_ts < activation.shape[1]:
@@ -123,7 +123,7 @@ def set_threshold_detection(activation, n_ts=10):
 
 
 def set_align_waveforms(activation, dis_ts):
-    '''Selection of the window information.
+    """Selection of the window information.
 
     Parameters
     ----------
@@ -140,7 +140,7 @@ def set_align_waveforms(activation, dis_ts):
         * 0: negative integer distance from the center in the left border.
         * 1: positive integer distance from the center in the right border.
 
-    '''
+    """
 
     # Initialization
     window_info = [-50, 50]
@@ -202,7 +202,7 @@ def set_align_waveforms(activation, dis_ts):
 
 
 def filter_borders(activation, dis_ts, window_info):
-    '''This function is an auxiliary function to filter the spikes which fall
+    """This function is an auxiliary function to filter the spikes which fall
     in the borders and the window will cover more time that the one available
     by the discretized dynamics.
 
@@ -223,7 +223,7 @@ def filter_borders(activation, dis_ts, window_info):
     dis_ts_co : pd.DataFrame
         spikes in the border removed.
 
-    '''
+    """
 
     # Filter borders
     times_dis = np.array(dis_ts['times'])
@@ -235,7 +235,7 @@ def filter_borders(activation, dis_ts, window_info):
 
 
 def set_feature_extraction(spks_waveforms, nmax=10000):
-    '''Set the method of transformation (in which feature space represent the
+    """Set the method of transformation (in which feature space represent the
     spikes waveforms) and the method of statistical compression.
     This function provides and interface to interact and decide these 2
     parameters in order to carry out the feature extraction from the waveforms.
@@ -259,7 +259,7 @@ def set_feature_extraction(spks_waveforms, nmax=10000):
     TODO
     ----
     include nmax
-    '''
+    """
     poss_q1 = ['', 'diff', 'diff_agg', 'wavelets', 'peaktovalley']
     poss_q1a = ['haar', 'daubechies', 'bspline', 'symlets', 'coiflets',
                 'biorthogonal', 'rbiorthogonal', 'dMeyer']
@@ -305,7 +305,7 @@ def set_feature_extraction(spks_waveforms, nmax=10000):
 
 
 def set_manual_postfiltering(Xtrans, spks_waveforms, window_info):
-    '''This function acts as an interface of interaction with the user in order
+    """This function acts as an interface of interaction with the user in order
     to select the correct threshold and direction of the inequality in the
     filter process of the undesired spike detectections.
 
@@ -326,7 +326,7 @@ def set_manual_postfiltering(Xtrans, spks_waveforms, window_info):
     TODO
     ----
     Other detection methods
-    '''
+    """
 
     # Questions
     question1 = "Introduce the selected threshold for variable 1 (x axis)\n"
@@ -371,7 +371,7 @@ def set_manual_postfiltering(Xtrans, spks_waveforms, window_info):
 ################### Wrapper function to sorting detection #####################
 ###############################################################################
 def sorting_detection(activation, threshold=None, window_info=None, thr=None):
-    '''It is possible to use sorting techniques and conservatice peak detection
+    """It is possible to use sorting techniques and conservatice peak detection
     algorithms convined in order to improve the tasks of peak detection.
 
     The first step is to detect in a conservative way (low threshold) possible
@@ -389,7 +389,7 @@ def sorting_detection(activation, threshold=None, window_info=None, thr=None):
     Selection of the window_info along the running.
     Select the 100 biggest up deviations and plot with different sizes.
     Selection of threshold along the time.
-    '''
+    """
 
     ## 1. Conservative detection
     # selection of the threshold
@@ -430,7 +430,7 @@ def sorting_detection(activation, threshold=None, window_info=None, thr=None):
 ############################## Useful functions ###############################
 ###############################################################################
 def align_spk_waveforms(dynamics, spk_info, window_info):
-    '''Align spikes for all the dynamics of spikes.
+    """Align spikes for all the dynamics of spikes.
 
     Parameters
     ----------
@@ -447,7 +447,7 @@ def align_spk_waveforms(dynamics, spk_info, window_info):
     TODO
     ----
     Include neuron information.
-    '''
+    """
 
     ## 1. Filter spikes in the extremes
     spk_info = spk_info[spk_info['times'] > - window_info[0]]

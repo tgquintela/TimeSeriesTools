@@ -47,7 +47,7 @@ def Jensen_Shannon_divergence(list_p, list_w=[]):
     """
 
     # Check and format inputs
-    assert len(list_p) > 1
+    assert(len(list_p) > 1)
     list_w = [1/2., 1/2.] if list_w == [] else list_w
     w = np.array(list_w)[np.newaxis]
     probs = np.array(list_p) if type(list_p) == list else list_p

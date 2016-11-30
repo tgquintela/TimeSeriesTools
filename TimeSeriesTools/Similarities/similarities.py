@@ -10,7 +10,7 @@ import numpy as np
 #import math
 
 
-def general_comparison(X, method, **kwargs):
+def general_comparison(X, method, kwargs={}):
     """Function which acts as a switcher and wraps all the comparison functions
     available in this package.
 
@@ -94,7 +94,7 @@ def general_lag_distance(X, method_f, tlags, simmetrical=False, kwargs={}):
     return M
 
 
-def general_distance_M(X, method_f, simmetrical, kwargs):
+def general_distance_M(X, method_f, simmetrical, kwargs={}):
     """This function is an applicator of a method given by the function
     method_f.
 
@@ -132,7 +132,7 @@ def general_distance_M(X, method_f, simmetrical, kwargs):
     return M
 
 
-def comparison_1v1(x, y, method, **kwargs):
+def comparison_1v1(x, y, method, kwargs={}):
     """Function which acts as a switcher and wraps all the comparison functions
     available in this package.
 
@@ -158,7 +158,7 @@ def comparison_1v1(x, y, method, **kwargs):
     return comparisons
 
 
-def comparison_f_1v1(x, y, method, **kwargs):
+def comparison_f_1v1(x, y, method, kwargs={}):
     """Function which acts as a switcher and wraps all the comparison functions
     available in this package and returns a instantiable function.
 
@@ -182,4 +182,3 @@ def comparison_f_1v1(x, y, method, **kwargs):
         pass
 
     return comparator
-

@@ -15,7 +15,8 @@ TODO
 import numpy as np
 import pandas as pd
 
-import transformations
+from ..Transformation.transformations import general_transformation
+from ..Transformation.value_discretization import value_discretization
 
 
 ###############################################################################
@@ -181,7 +182,7 @@ def ref_based_thres_builder(signals, refs_info, units_info, thresholds_info):
     elif type(thresholds_info) == dict:
         thresholds = compute_threshold(refs, units, **thresholds_info)
     elif type(thresholds_info).__name__ == 'function':
-        thresholds = thresholds_info(refs, units, **thresholds_info)
+        thresholds = thresholds_info(refs, units)
 
     return thresholds
 
@@ -242,12 +243,12 @@ def compute_ref_value(signals, method='min', axisn=None):
     elif axisn == 0:
         aux = np.zeros(signals.shape)
         for i in range(signals.shape[0]):
-            aux[i, :] = ref_value
+            aux[i, :] = ref_value.squeeze()
         ref_value = aux
     elif axisn == 1:
         aux = np.zeros(signals.shape)
         for i in range(signals.shape[1]):
-            aux[:, i] = ref_value
+            aux[:, i] = ref_value.squeeze()
         ref_value = aux
 
     return ref_value
@@ -309,12 +310,12 @@ def compute_units(signals, method, axisn=None):
     elif axisn == 0:
         aux = np.zeros(signals.shape)
         for i in range(signals.shape[0]):
-            aux[i, :] = units
+            aux[i, :] = units.squeeze()
         units = aux
     elif axisn == 1:
         aux = np.zeros(signals.shape)
         for i in range(signals.shape[1]):
-            aux[:, i] = units
+            aux[:, i] = units.squeeze()
         units = aux
 
     return units

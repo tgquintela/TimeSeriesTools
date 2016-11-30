@@ -6,11 +6,12 @@ of time-series system.
 
 import numpy as np
 import pywt
-from pyCausality.TimeSeries.Transformation import temporal_discretization
-from temporal_discretization import ups_downs_temporal_discretization
+from ..Transformation.temporal_discretization import\
+    ups_downs_temporal_discretization_matrix, ups_downs_temporal_discretization
+from ..Transformation.aux_transformation import collapse3waveform_matrix
 
 
-def feature_representation(X, methods_feature=[], *args):
+def feature_representation(X, methods_feature=[], args=[]):
     """This is a wrapper of functions that can perform as a feature extraction
     from time series.
 
@@ -38,8 +39,12 @@ def feature_representation(X, methods_feature=[], *args):
     # Uniformation of the inputs
     if type(methods_feature) == str:
         methods_feature = [methods_feature]
+        args = [args] if type(args) == dict else [{}]
     elif type(methods_feature) == list:
         methods_feature = methods_feature
+    possible_methods = ['', 'diff', 'diff_agg', 'wavelets', 'dwavelets',
+                        'collapse3waveform', 'peaktovalley']
+    assert(all([m in possible_methods for m in methods_feature]))
 
     ## Transformation to feature space
     Xt = []
@@ -61,7 +66,7 @@ def feature_representation(X, methods_feature=[], *args):
             aux = dwavelet_feat_repres(X, **args[i])
             Xt.append(aux)
         elif method_feature == 'collapse3waveform':
-            collapse3waveform_matrix(X, *args[i])
+            Xt.append(collapse3waveform_matrix(X, **args[i]))
         i += 1
 
     # Format output
@@ -146,56 +151,56 @@ def peak2valley_feat_repres(X):
 
     """
     features = []
-    for i in range(X.shape[0]):
-        feats = ups_downs_temporal_discretization(X[i, :])[1]
+    for i in range(X.shape[1]):
+        feats = ups_downs_temporal_discretization(X[:, i])[1]
         idx = np.argmax(feats[:, 0])
         features.append(feats[idx, :])
-    Xt = np.vstack(features)
+    Xt = np.vstack(features).T
     return Xt
 
 
-def collapse3waveform_matrix(waveform, window_info, axisn=0):
-    """Funcions to collapse a waveform in 3 stages, pre-spike, spike and
-    post-spike in order to be able to identify the spikes easily.
+#def collapse3waveform_matrix(waveform, window_info, axisn=0):
+#    """Funcions to collapse a waveform in 3 stages, pre-spike, spike and
+#    post-spike in order to be able to identify the spikes easily.
+#
+#    Parameters
+#    ---------
+#    waveform: array_like, shape(Nf, M)
+#        representation of the waveform or part of the time series we want to
+#        transform and extracting representative features of the agrregated
+#        state of pre-event, event and post-event situation.
+#    window_info: int or array_like of two elements
+#        the information of the window. If the number is an integer we will
+#        consider as a symmetrical window. If there is a list, array or tuple,
+#        it is the information of the event time or the borders of the window
+#        respect the position of the event.
+#    axisn: int, optional
+#        there is the option of
+#
+#    Returns
+#    -------
+#    collapsed: array_like, shape (3, M)
+#        collapsed representation of the waveform passed.
+#    """
+#
+#    # Formatting inputs
+#    if type(window_info) == int:
+#        idx = window_info
+#    else:
+#        idx = -window_info[0]
+#
+#    # How many time series we have.
+#    m = waveform.shape[axisn]
+#    collapsed = np.zeros((3, m))
+#    axisn = (axisn - 1) % 2
+#
+#    collapsed[0, :] = np.sum(waveform[:idx, :], axisn).reshape(-1)
+#    collapsed[1, :] = waveform[idx, :].reshape(-1)
+#    collapsed[2, :] = np.sum(waveform[idx+1:, :], axisn).reshape(-1)
+#    return collapsed
 
-    Parameters
-    ---------
-    waveform: array_like, shape(Nf, M)
-        representation of the waveform or part of the time series we want to
-        transform and extracting representative features of the agrregated
-        state of pre-event, event and post-event situation.
-    window_info: int or array_like of two elements
-        the information of the window. If the number is an integer we will
-        consider as a symmetrical window. If there is a list, array or tuple,
-        it is the information of the event time or the borders of the window
-        respect the position of the event.
-    axisn: int, optional
-        there is the option of
 
-    Returns
-    -------
-    collapsed: array_like, shape (3, M)
-        collapsed representation of the waveform passed.
-    """
-
-    # Formatting inputs
-    if type(window_info) == int:
-        idx = window_info
-    else:
-        idx = -window_info[0]
-
-    # How many time series we have.
-    m = waveform.shape[axisn]
-    collapsed = np.zeros((3, m))
-    axisn = (axisn - 1) % 2
-
-    collapsed[0, :] = np.sum(waveform[:idx, :], axisn).reshape(-1)
-    collapsed[1, :] = waveform[idx, :].reshape(-1)
-    collapsed[2, :] = np.sum(waveform[idx+1:, :], axisn).reshape(-1)
-    return collapsed
-
-
-def dwavelet_feat_repres(X, method='haar', **kwargs):
+def dwavelet_feat_repres(X, method='haar', kwargs={}):
     """The peak2valley feature representation represents the time series with
     the maximum consecutive incremental change in the time series.
 
@@ -217,7 +222,7 @@ def dwavelet_feat_repres(X, method='haar', **kwargs):
     """
 
     # Preparations
-    possible = ['haar', 'db', 'sym', 'coif', 'bior', 'rbio', 'dmey',
+    possible = ['haar', 'db', 'sym', 'coif', 'bior', 'rbior', 'dmey',
                 'daubechies', 'bspline', 'symlets', 'coiflets',
                 'biorthogonal', 'rbiorthogonal', 'dMeyer']
 
@@ -243,7 +248,7 @@ def dwavelet_feat_repres(X, method='haar', **kwargs):
         # from mlpy import
         #default = 103
         pass
-            ##################################################################
+    ##################################################################
     return Xt
 
 

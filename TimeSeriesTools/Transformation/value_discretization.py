@@ -28,16 +28,13 @@ def value_discretization(Y, discret_info, method, kwargs):
         discretized signals in values.
 
     """
-
     Yt = np.array(Y)
-
     if method == 'pattern_matching':
         Yt = general_pattern_matching(Y, discret_info, **kwargs)
     elif method == 'threshold_based':
         Yt = discretize_with_thresholds(Y, discret_info, **kwargs)
     elif method == 'statistical_threshold':
         Yt = statistical_discretizor(Y, discret_info, **kwargs)
-
     return Yt
 
 
@@ -82,14 +79,15 @@ def discretize_with_thresholds(array, thres, values=[]):
     for i in range(len(values)):
         indices = np.logical_and(array >= thres[:, :, i],
                                  array <= thres[:, :, i+1])
-        indices = np.nonzero(indices)
-        aux[indices] = values[i]
+        indices = np.nonzero(indices)[0]
+        if len(indices):
+            aux[indices] = values[i]
 
     aux = aux.reshape(inshape)
     return aux
 
 
-def threshold_formatter(array, thres):
+def threshold_formatter(array, thres, extend_limits=True):
     """Function which transforms the thresholds given to a array format to
     apply easy the discretization.
 
@@ -191,10 +189,11 @@ def threshold_formatter(array, thres):
             nd_thres = thres.shape[2]
 
     ## 2. Creation of the limit min and max thresholds
-    mini = -np.ones((array.shape[0], n_elem, 1))*np.inf
-    maxi = np.ones((array.shape[0], n_elem, 1))*np.inf
-    # Concatenation
-    thres = np.concatenate([mini, thres, maxi], axis=2)
+    if extend_limits:
+        mini = -np.ones((array.shape[0], n_elem, 1))*np.inf
+        maxi = np.ones((array.shape[0], n_elem, 1))*np.inf
+        # Concatenation
+        thres = np.concatenate([mini, thres, maxi], axis=2)
 
     return thres
 
@@ -264,7 +263,7 @@ def threshold_binning_builder(array, n_bins):
         thres = tuple(thres)
 
     ## 2. Format to matrix thresholding
-    thres = threshold_formatter(array, thres)
+    thres = threshold_formatter(array, thres, False)
 
     return thres
 

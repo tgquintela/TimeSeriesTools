@@ -31,8 +31,11 @@ def general_transformation(X, method, args):
 
     if type(method) == list:
         methods = method[:]
+        assert(type(args) == list)
     elif type(method) == str:
         methods = [method]
+        assert(type(args) == dict)
+        args = [args]
 
     # Preparing the transformation
     Xt = X[:]
