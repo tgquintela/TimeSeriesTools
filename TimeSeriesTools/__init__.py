@@ -40,5 +40,5 @@ def test():
     test_burstdetection.test()
 #    test_tsstatistics.test()
     test_regimedetection.test()
-#    test_feature_extraction.test()
+    test_feature_extraction.test()
 #    test_similarities.test()
