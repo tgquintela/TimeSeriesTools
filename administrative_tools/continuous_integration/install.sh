@@ -33,7 +33,7 @@ if [[ "$DISTRIB" == "conda_min" ]]; then
     conda create -n testenv --yes $DEPS python=$TRAVIS_PYTHON_VERSION
     source activate testenv
     conda install --file administrative_tools/continuous_integration/requirements.txt -y
-    conda install basemap
+    conda install -c dgursoy pywavelets=0.4.0
     #conda install libgfortran
 
   # for debugging...
@@ -61,7 +61,7 @@ elif [[ "$DISTRIB" == "conda" ]]; then
     conda create -n testenv --yes $DEPS python=$TRAVIS_PYTHON_VERSION
     source activate testenv
     conda install --file administrative_tools/continuous_integration/requirements.txt -y
-    conda install basemap
+    conda install -c dgursoy pywavelets=0.4.0
   # for debugging...
     echo $PATH
     which python
@@ -80,7 +80,7 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     virtualenv --system-site-packages testenv
     source testenv/bin/activate
     pip install -r administrative_tools/continuous_integration/requirements.txt
-    conda install basemap
+    pip install pywavelets
     #pip install nose
     #pip install coverage
     #pip install numpy==$NUMPY_VERSION
