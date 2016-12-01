@@ -7,3 +7,4 @@ networkx>=1.8
 nose
 libgfortran
 basemap
+pywt
