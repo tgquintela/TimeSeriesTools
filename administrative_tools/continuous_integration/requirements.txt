@@ -8,3 +8,4 @@ nose
 libgfortran
 itertools
 mpl_toolkits
+basemap
