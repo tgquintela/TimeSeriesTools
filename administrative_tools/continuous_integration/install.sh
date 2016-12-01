@@ -33,6 +33,7 @@ if [[ "$DISTRIB" == "conda_min" ]]; then
     conda create -n testenv --yes $DEPS python=$TRAVIS_PYTHON_VERSION
     source activate testenv
     conda install --file administrative_tools/continuous_integration/requirements.txt -y
+    conda install basemap
     #conda install libgfortran
 
   # for debugging...
@@ -60,6 +61,7 @@ elif [[ "$DISTRIB" == "conda" ]]; then
     conda create -n testenv --yes $DEPS python=$TRAVIS_PYTHON_VERSION
     source activate testenv
     conda install --file administrative_tools/continuous_integration/requirements.txt -y
+    conda install basemap
   # for debugging...
     echo $PATH
     which python
@@ -78,6 +80,7 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     virtualenv --system-site-packages testenv
     source testenv/bin/activate
     pip install -r administrative_tools/continuous_integration/requirements.txt
+    conda install basemap
     #pip install nose
     #pip install coverage
     #pip install numpy==$NUMPY_VERSION
