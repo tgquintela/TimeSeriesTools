@@ -11,11 +11,6 @@ from ..Similarities.aux_functions import KL_divergence, average_prob,\
     Jensen_Shannon_divergence
 from ..Similarities.dtw import dtw
 from ..Similarities.magnitude_similarities import general_dtw
-try:
-    import_error = False
-    import rpy2
-except:
-    import_error = True
 from ..Similarities.correlation_similarities import lagged_PearsonCorrelation
 from ..Similarities.informationth_similarities import mutualInformation,\
     mutualInformation_1to1, conditional_entropy, information_GCI_ind
@@ -44,8 +39,12 @@ def test():
     ###############################
     x, y = np.random.randn(200).cumsum(), np.random.randn(200).cumsum()
     dtw(x, y, dist=None)
-    if not import_error:
+    ### Try to import and apply rpy2 dependencies
+    try:
+        import rpy2
         general_dtw(x, y, 'rpy2')
+    except:
+        pass
 
     ## Magnitude similarity (dist)
     ###############################
