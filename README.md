@@ -1,3 +1,6 @@
+
+[![Build Status](https://travis-ci.org/tgquintela/TimeSeriesTools.svg?branch=master)](https://travis-ci.org/tgquintela/TimeSeriesTools)
+[![Coverage Status](https://coveralls.io/repos/github/tgquintela/TimeSeriesTools/badge.svg?branch=master)](https://coveralls.io/github/tgquintela/TimeSeriesTools?branch=master)
 # TimeSeriesTools
 Package to create tools in order to deal with groups of time series. The purpose of that software is to use, extend and complement the main tools and packages used in python.
 The software structure of this package is functional oriented but it is expected to be complemented in the future. The main utilities of this package are:
