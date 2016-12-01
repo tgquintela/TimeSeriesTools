@@ -8,9 +8,12 @@ The main method implemented is a wrap to the R package.
 
 import numpy as np
 
-from rpy2.robjects.packages import importr
-from rpy2.robjects.numpy2ri import numpy2ri
-from rpy2.robjects.numpy2ri import ri2numpy
+try:
+    from rpy2.robjects.packages import importr
+    from rpy2.robjects.numpy2ri import numpy2ri
+    from rpy2.robjects.numpy2ri import ri2numpy
+except:
+    pass
 
 
 def general_dtw(ts1, ts2, method, kwargs={}):
