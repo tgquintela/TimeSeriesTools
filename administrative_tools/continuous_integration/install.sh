@@ -34,7 +34,7 @@ if [[ "$DISTRIB" == "conda_min" ]]; then
     source activate testenv
     conda install --file administrative_tools/continuous_integration/requirements.txt -y
     conda install -c dgursoy pywavelets=0.4.0
-    conda install -c richarizardd rpy2=2.5.6
+    pip install rpy2
     #conda install libgfortran
 
   # for debugging...
@@ -63,7 +63,7 @@ elif [[ "$DISTRIB" == "conda" ]]; then
     source activate testenv
     conda install --file administrative_tools/continuous_integration/requirements.txt -y
     conda install -c dgursoy pywavelets=0.4.0
-    conda install -c richarizardd rpy2=2.5.6
+    pip install rpy2
   # for debugging...
     echo $PATH
     which python
