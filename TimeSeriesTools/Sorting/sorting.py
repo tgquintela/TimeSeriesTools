@@ -5,9 +5,9 @@ import numpy as np
 # Wrapper TODO:
 # align spikes + transformation + post-filtering
 # possibility to ask for threshold
-from pyCausality.Plotting.sorting_plots import *
-from regime_detection import *
-from feature_extraction import *
+#from pyCausality.Plotting.sorting_plots import *
+#from regime_detection import *
+#from feature_extraction import *
 
 
 ############################# Auxiliary functions #############################

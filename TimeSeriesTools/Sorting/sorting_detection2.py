@@ -4,8 +4,8 @@ using sorting techniques.
 """
 
 
-from pyCausality.Plotting.sorting_plots import *
-from pyCausality.TimeSeries.Sorting.sorting import *
+#from pyCausality.Plotting.sorting_plots import *
+#from pyCausality.TimeSeries.Sorting.sorting import *
 
 from regime_detection import *
 from feature_extraction import *
