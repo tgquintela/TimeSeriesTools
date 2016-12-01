@@ -34,6 +34,7 @@ if [[ "$DISTRIB" == "conda_min" ]]; then
     source activate testenv
     conda install --file administrative_tools/continuous_integration/requirements.txt -y
     conda install -c dgursoy pywavelets=0.4.0
+    conda install -c r rpy2=2.8.2 
     #conda install libgfortran
 
   # for debugging...
@@ -62,6 +63,7 @@ elif [[ "$DISTRIB" == "conda" ]]; then
     source activate testenv
     conda install --file administrative_tools/continuous_integration/requirements.txt -y
     conda install -c dgursoy pywavelets=0.4.0
+    conda install -c r rpy2=2.8.2 
   # for debugging...
     echo $PATH
     which python
@@ -81,6 +83,7 @@ elif [[ "$DISTRIB" == "ubuntu" ]]; then
     source testenv/bin/activate
     pip install -r administrative_tools/continuous_integration/requirements.txt
     pip install pywavelets
+    pip install rpy2
     #pip install nose
     #pip install coverage
     #pip install numpy==$NUMPY_VERSION
