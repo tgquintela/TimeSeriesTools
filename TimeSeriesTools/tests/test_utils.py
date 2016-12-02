@@ -17,12 +17,11 @@ from ..utils.fit_utils import general_multiscale_fit,\
 
 
 def test():
-    pass
-#    create_times_randompoints(100)
-#    create_times_randomregimes(100, [.1, .2])
-#    ts0 = create_times_randombursts(np.array([0.]), [(100, 1.), (5, .01)])
-#    ts1 = create_times_randombursts(np.array([0.]), [(100, 1.)])
-#
+    create_times_randompoints(100)
+    create_times_randomregimes(100, [.1, .2])
+    ts0 = create_times_randombursts(np.array([0.]), [(100, 1.), (5, .01)])
+    ts1 = create_times_randombursts(np.array([0.]), [(100, 1.)])
+
 #    #### Operations
 #    # Parameters
 #    tss = [ts0, ts1]
