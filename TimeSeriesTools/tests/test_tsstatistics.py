@@ -36,37 +36,37 @@ def test():
     uniform_input_samevals(range(20), X_disc)
     uniform_input_samevals(np.arange(20), X_disc)
 
-#    ngram = create_ngram(X_disc, lags, samevals=True)
-#    lags = lags = uniform_input_lags(np.array([5]), X_disc)
-#    ngram = create_ngram(X_disc, range(5), samevals=True)
-#
-#    pres, post = [0], [0]
-#    L = 1
-#    build_ngram_arrays(np.atleast_2d(X_disc).T, post, pres, L)
-#    L = 2
-#    build_ngram_arrays(np.atleast_2d(X_disc).T, post, pres, L)
+    ngram = create_ngram(X_disc, lags, samevals=True)
+    lags = lags = uniform_input_lags(np.array([5]), X_disc)
+    ngram = create_ngram(X_disc, range(5), samevals=True)
+
+    pres, post = [0], [0]
+    L = 1
+    build_ngram_arrays(np.atleast_2d(X_disc).T, post, pres, L)
+    L = 2
+    build_ngram_arrays(np.atleast_2d(X_disc).T, post, pres, L)
 
     ## TO IMPLEMENT
 #    X_mdisc = np.random.randint(0, 20, (1000, 5))
 #    pres, post = [0, 1, 2], [[1, 2, 3], [2, 3, 4], [0, 1, 4]]
 #    build_ngram_arrays(X_mdisc, post, pres, L)
 
-#    ## probabilitytools
-#    ###################
-#    probs = np.random.random((10, 7, 5))
-#    p_x = compute_marginal_probs(probs, [0])
-#    assert(p_x.shape == (7, 5))
-#    p_x = compute_marginal_probs(probs, [1])
-#    assert(p_x.shape == (10, 5))
-#    p_x = compute_marginal_probs(probs, [1, 2])
-#    assert(p_x.shape == (10,))
-#
-#    p_x_y = compute_conditional_probs(probs, [0])
-#    assert(p_x_y.shape == probs.shape)
-#    p_x_y = compute_conditional_probs(probs, [1])
-#    assert(p_x_y.shape == probs.shape)
-#    p_x_y = compute_conditional_probs(probs, [1, 2])
-#    assert(p_x_y.shape == probs.shape)
+    ## probabilitytools
+    ###################
+    probs = np.random.random((10, 7, 5))
+    p_x = compute_marginal_probs(probs, [0])
+    assert(p_x.shape == (7, 5))
+    p_x = compute_marginal_probs(probs, [1])
+    assert(p_x.shape == (10, 5))
+    p_x = compute_marginal_probs(probs, [1, 2])
+    assert(p_x.shape == (10,))
+
+    p_x_y = compute_conditional_probs(probs, [0])
+    assert(p_x_y.shape == probs.shape)
+    p_x_y = compute_conditional_probs(probs, [1])
+    assert(p_x_y.shape == probs.shape)
+    p_x_y = compute_conditional_probs(probs, [1, 2])
+    assert(p_x_y.shape == probs.shape)
 #
 #    ## probabilitytools
 #    ###################
