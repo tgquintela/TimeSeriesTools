@@ -17,41 +17,40 @@ from ..TS_statistics.regime_statistics import prob_regimes_x, temporal_counts,\
 
 
 def test():
-    pass
-#    #####
-#    X = np.random.randn(1000).cumsum()
-#    X_disc = np.random.randint(0, 20, 1000)
+    #####
+    X = np.random.randn(1000).cumsum()
+    X_disc = np.random.randint(0, 20, 1000)
+    X_mdisc = np.random.randint(0, 20, (1000, 5))
+
+    ################
+    #Test functions
+    ##################
+
+    ## Utils
+    #########
+    uniform_input_lags([5], X)
+    lags = uniform_input_lags(np.array([5]), X)
+
+    uniform_input_samevals(True, X_disc)
+    uniform_input_samevals(False, np.atleast_2d(X_disc).T)
+    uniform_input_samevals(range(20), X_disc)
+    uniform_input_samevals(np.arange(20), X_disc)
+
+    ngram = create_ngram(X_disc, lags, samevals=True)
+    lags = lags = uniform_input_lags(np.array([5]), X_disc)
+    ngram = create_ngram(X_disc, range(5), samevals=True)
+
+    pres, post = [0], [0]
+    L = 1
+    build_ngram_arrays(np.atleast_2d(X_disc).T, post, pres, L)
+    L = 2
+    build_ngram_arrays(np.atleast_2d(X_disc).T, post, pres, L)
+
+    ## TO IMPLEMENT
 #    X_mdisc = np.random.randint(0, 20, (1000, 5))
-#
-#    ################
-#    #Test functions
-#    ##################
-#
-#    ## Utils
-#    #########
-#    uniform_input_lags([5], X)
-#    lags = uniform_input_lags(np.array([5]), X)
-#
-#    uniform_input_samevals(True, X_disc)
-#    uniform_input_samevals(False, np.atleast_2d(X_disc).T)
-#    uniform_input_samevals(range(20), X_disc)
-#    uniform_input_samevals(np.arange(20), X_disc)
-#
-#    ngram = create_ngram(X_disc, lags, samevals=True)
-#    lags = lags = uniform_input_lags(np.array([5]), X_disc)
-#    ngram = create_ngram(X_disc, range(5), samevals=True)
-#
-#    pres, post = [0], [0]
-#    L = 1
-#    build_ngram_arrays(np.atleast_2d(X_disc).T, post, pres, L)
-#    L = 2
-#    build_ngram_arrays(np.atleast_2d(X_disc).T, post, pres, L)
-#
-#    ## TO IMPLEMENT
-##    X_mdisc = np.random.randint(0, 20, (1000, 5))
-##    pres, post = [0, 1, 2], [[1, 2, 3], [2, 3, 4], [0, 1, 4]]
-##    build_ngram_arrays(X_mdisc, post, pres, L)
-#
+#    pres, post = [0, 1, 2], [[1, 2, 3], [2, 3, 4], [0, 1, 4]]
+#    build_ngram_arrays(X_mdisc, post, pres, L)
+
 #    ## probabilitytools
 #    ###################
 #    probs = np.random.random((10, 7, 5))
