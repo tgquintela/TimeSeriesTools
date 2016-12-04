@@ -31,29 +31,29 @@ def test():
     times, values = join_regimes(tss, regimes)
     gridtimes, gridvalues = format_as_regular_ts(times, values, intervals)
     apply_gaussianconvolved_ts(gridvalues, 5, .2)
-#
-#    ### Sliding utils
-#    #################
-#    D, step = 2, 1
-#    tau = 3
-#
-#    sliding_embeded_transf(values, tau, D,  step)
-#    try:
-#        tau = .4
-#        boolean = False
-#        sliding_embeded_transf(values, tau, D,  step)
-#        boolean = True
-#    except:
-#        if boolean:
-#            raise Exception()
-#    try:
-#        tau = len(values)
-#        boolean = False
-#        sliding_embeded_transf(values, tau, D,  step)
-#        boolean = True
-#    except:
-#        if boolean:
-#            raise Exception()
+
+    ### Sliding utils
+    #################
+    D, step = 2, 1
+    tau = 3
+
+    sliding_embeded_transf(values, tau, D,  step)
+    try:
+        tau = .4
+        boolean = False
+        sliding_embeded_transf(values, tau, D,  step)
+        boolean = True
+    except:
+        if boolean:
+            raise Exception()
+    try:
+        tau = len(values)
+        boolean = False
+        sliding_embeded_transf(values, tau, D,  step)
+        boolean = True
+    except:
+        if boolean:
+            raise Exception()
 #
 #    ### Fit utils
 #    ##############
