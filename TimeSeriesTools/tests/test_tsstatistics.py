@@ -137,19 +137,19 @@ def test():
     temporal_counts(spks, normalized=False, collapse_reg=False)
     temporal_counts(spks, normalized=True, collapse_reg=True)
     temporal_counts(spks, normalized=True, collapse_reg=False)
-#
-#    temporal_average_counts(spks, window=0, collapse_reg=True)
-#    temporal_average_counts(spks, window=20, collapse_reg=True)
-#    temporal_average_counts(spks, window=0, collapse_reg=False)
-#    temporal_average_counts(spks, window=20, collapse_reg=False)
-#
-#    count_repeated(raster[:, 0])
-#
-#    temporal_densities(spks, w_limit=0, collapse_reg=True)
-#    temporal_densities(spks, w_limit=20, collapse_reg=True)
-#    temporal_densities(spks, w_limit=0, collapse_reg=False)
-#    temporal_densities(spks, w_limit=20, collapse_reg=False)
-#
+
+    temporal_average_counts(spks, window=0, collapse_reg=True)
+    temporal_average_counts(spks, window=20, collapse_reg=True)
+    temporal_average_counts(spks, window=0, collapse_reg=False)
+    temporal_average_counts(spks, window=20, collapse_reg=False)
+
+    count_repeated(raster[:, 0])
+
+    temporal_densities(spks, w_limit=0, collapse_reg=True)
+    temporal_densities(spks, w_limit=20, collapse_reg=True)
+    temporal_densities(spks, w_limit=0, collapse_reg=False)
+    temporal_densities(spks, w_limit=20, collapse_reg=False)
+
 #    ## Interevent statistics
 #    ##
 #    isis_computation(spks, logscale=False)
