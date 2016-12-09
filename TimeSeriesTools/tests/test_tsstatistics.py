@@ -93,9 +93,9 @@ def test():
     prob_ngram_x(X_m, 1, bins=None, samevals=np.arange(5), normalize=True)
     prob_ngram_x(X_m, 1, bins=None, samevals=[np.arange(5)]*4, normalize=True)
 
-#    compute_joint_probs(X_m, values=[], normalize=True)
-#    compute_joint_probs(X_m, values=np.arange(5), normalize=True)
-#    compute_joint_probs(X_m, values=np.arange(5), normalize=True)
+    compute_joint_probs(X_m, values=[], normalize=True)
+    compute_joint_probs(X_m, values=np.arange(5), normalize=True)
+    compute_joint_probs(X_m, values=np.arange(5), normalize=True)
 #
 #    prob_xy_ind(x, y, samevals=True, bins=0, timelag=0, normalize=True)
 #    prob_xy_ind(x, y, samevals=False, bins=0, timelag=1, normalize=True)
