@@ -351,7 +351,7 @@ def isis_computation(spks, logscale=False):
             isis.append(np.log(np.diff(aux_t)))
         else:
             isis.append(np.diff(aux_t))
-        assert(np.isfinite(isis[i]))
+        assert(np.all(np.isfinite(isis[i])))
     return isis, elements
 
 
