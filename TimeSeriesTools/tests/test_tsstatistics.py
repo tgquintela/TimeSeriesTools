@@ -67,120 +67,120 @@ def test():
     p_x_y = compute_conditional_probs(probs, [1, 2])
     assert(p_x_y.shape == probs.shape)
 
-    ## probabilitytools
-    ###################
-    L = 3
-    X_m = np.random.randint(0, 5, (1000, 4))
-    x, y = np.random.randint(0, 5, 1000), np.random.randint(0, 5, 1000)
-
-    prob_ngram_ind(x, y, 1, auto=False, samevals=False, normalize=True)
-    prob_ngram_ind(x, y, 1, auto=True, samevals=[range(5)]*2, normalize=True)
-    prob_ngram_ind(x, y, 2, auto=False, samevals=False, normalize=True)
-    prob_ngram_ind(x, y, 2, auto=True, samevals=[np.arange(5)]*2,
-                   normalize=True)
-    prob_ngram_ind(x, y, L, auto=False, samevals=np.arange(5), normalize=True)
-    prob_ngram_ind(x, y, L, auto=True, samevals=True, normalize=True)
-
-    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=True, normalize=True)
-    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=False, normalize=True)
-    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=np.arange(5),
-                  normalize=True)
-    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=[range(5)]*4,
-                  normalize=True)
-
-    prob_ngram_x(X_m, 1, bins=None, samevals=True, normalize=True)
-    prob_ngram_x(X_m, 1, bins=None, samevals=False, normalize=True)
-    prob_ngram_x(X_m, 1, bins=None, samevals=np.arange(5), normalize=True)
-    prob_ngram_x(X_m, 1, bins=None, samevals=[np.arange(5)]*4, normalize=True)
-
-    compute_joint_probs(X_m, values=[], normalize=True)
-    compute_joint_probs(X_m, values=np.arange(5), normalize=True)
-    compute_joint_probs(X_m, values=np.arange(5), normalize=True)
-
-    prob_xy_ind(x, y, samevals=True, bins=0, timelag=0, normalize=True)
-    prob_xy_ind(x, y, samevals=False, bins=0, timelag=1, normalize=True)
-    prob_xy_ind(x, y, samevals=True, bins=0, timelag=0, normalize=True)
-    prob_xy_ind(x, y, samevals=False, bins=0, timelag=2, normalize=True)
-    prob_xy_ind(x, y, samevals=False, bins=0, timelag=-2, normalize=True)
-    prob_xy_ind(x, y, samevals=False, bins=0, timelag=-1, normalize=True)
-    prob_xy_ind(x, y, samevals=False, bins=[None, None], timelag=-1,
-                normalize=True)
-    prob_xy_ind(x, y, samevals=False, bins=[0, 0], timelag=-1, normalize=True)
-    prob_xy_ind(x, y, samevals=np.arange(4), bins=2, timelag=-1,
-                normalize=True)
-
-    prob_xy(X_m, bins=0, maxl=1, samevals=True)
-    prob_xy(X_m, bins=0, maxl=1, samevals=False)
-    prob_xy(X_m, bins=0, maxl=1, samevals=np.arange(5))
-    prob_xy(X_m, bins=0, maxl=1, samevals=[np.arange(5)]*4)
-
-    prob_x(X_m, n_bins=0, individually=True, normalize=True)
-    prob_x(X_m, n_bins=2, individually=False, normalize=True)
-
-    #### Regime statistics
-    #######################
-    raster = np.random.randint(0, 10, (1000, 4))
-    times_event = np.random.randn(1000).cumsum()
-    element_event = np.random.randint(0, 5, 1000)
-    regimes_event = np.random.randint(0, 2, 1000)
-    spks = times_event, element_event, regimes_event
-
-    parse_spks(raster)
-    parse_spks(spks)
-
-    prob_regimes_x(spks)
-    prob_regimes_x(spks, 10)
-    prob_regimes_x(spks, normalized=True)
-    prob_regimes_x(spks, 10, normalized=True)
-
-    temporal_counts(spks, normalized=False, collapse_reg=True)
-    temporal_counts(spks, normalized=False, collapse_reg=False)
-    temporal_counts(spks, normalized=True, collapse_reg=True)
-    temporal_counts(spks, normalized=True, collapse_reg=False)
-
-    temporal_average_counts(spks, window=0, collapse_reg=True)
-    temporal_average_counts(spks, window=20, collapse_reg=True)
-    temporal_average_counts(spks, window=0, collapse_reg=False)
-    temporal_average_counts(spks, window=20, collapse_reg=False)
-
-    count_repeated(raster[:, 0])
-
-    temporal_densities(spks, w_limit=0, collapse_reg=True)
-    temporal_densities(spks, w_limit=20, collapse_reg=True)
-    temporal_densities(spks, w_limit=0, collapse_reg=False)
-    temporal_densities(spks, w_limit=20, collapse_reg=False)
-
-    ## Interevent statistics
-    ##
-    isis_computation(spks, logscale=False)
-    isis_computation(spks, logscale=True)
-
-    isi_distribution(spks, 10, globally=False, normalized=True,
-                     logscale=True)
-    isi_distribution(spks, 10, globally=True, normalized=True,
-                     logscale=False)
-    isi_distribution(spks, 10, globally=False, normalized=False,
-                     logscale=False)
-    isi_distribution(spks, 10, globally=True, normalized=False,
-                     logscale=True)
-
-    temporal_si(spks)
-
-    ## Probs utils
-    ##
-    c_xy, max_l = np.random.randint(0, 100, (10, 10, 6)), 5
-    general_count(c_xy)
-    general_count(c_xy, max_l)
-
-    counts_normalization(np.random.randint(0, 100, 1000), 1000)
-    counts_normalization(c_xy, 1000)
-
-    ## Counting probs in the events information information
-    ##
-    prob_spk_xy(spks, max_l=8, normalized=False)
-    prob_spk_xy(spks, max_l=8, normalized=True)
-
-    ## Statistics bursts
-    bursts = [np.arange(1, 10), np.arange(50, 60)]
-    count_into_bursts(spks, bursts, elements=None)
-    count_into_bursts(spks, bursts, elements=range(5))
+#    ## probabilitytools
+#    ###################
+#    L = 3
+#    X_m = np.random.randint(0, 5, (1000, 4))
+#    x, y = np.random.randint(0, 5, 1000), np.random.randint(0, 5, 1000)
+#
+#    prob_ngram_ind(x, y, 1, auto=False, samevals=False, normalize=True)
+#    prob_ngram_ind(x, y, 1, auto=True, samevals=[range(5)]*2, normalize=True)
+#    prob_ngram_ind(x, y, 2, auto=False, samevals=False, normalize=True)
+#    prob_ngram_ind(x, y, 2, auto=True, samevals=[np.arange(5)]*2,
+#                   normalize=True)
+#    prob_ngram_ind(x, y, L, auto=False, samevals=np.arange(5), normalize=True)
+#    prob_ngram_ind(x, y, L, auto=True, samevals=True, normalize=True)
+#
+#    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=True, normalize=True)
+#    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=False, normalize=True)
+#    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=np.arange(5),
+#                  normalize=True)
+#    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=[range(5)]*4,
+#                  normalize=True)
+#
+#    prob_ngram_x(X_m, 1, bins=None, samevals=True, normalize=True)
+#    prob_ngram_x(X_m, 1, bins=None, samevals=False, normalize=True)
+#    prob_ngram_x(X_m, 1, bins=None, samevals=np.arange(5), normalize=True)
+#    prob_ngram_x(X_m, 1, bins=None, samevals=[np.arange(5)]*4, normalize=True)
+#
+#    compute_joint_probs(X_m, values=[], normalize=True)
+#    compute_joint_probs(X_m, values=np.arange(5), normalize=True)
+#    compute_joint_probs(X_m, values=np.arange(5), normalize=True)
+#
+#    prob_xy_ind(x, y, samevals=True, bins=0, timelag=0, normalize=True)
+#    prob_xy_ind(x, y, samevals=False, bins=0, timelag=1, normalize=True)
+#    prob_xy_ind(x, y, samevals=True, bins=0, timelag=0, normalize=True)
+#    prob_xy_ind(x, y, samevals=False, bins=0, timelag=2, normalize=True)
+#    prob_xy_ind(x, y, samevals=False, bins=0, timelag=-2, normalize=True)
+#    prob_xy_ind(x, y, samevals=False, bins=0, timelag=-1, normalize=True)
+#    prob_xy_ind(x, y, samevals=False, bins=[None, None], timelag=-1,
+#                normalize=True)
+#    prob_xy_ind(x, y, samevals=False, bins=[0, 0], timelag=-1, normalize=True)
+#    prob_xy_ind(x, y, samevals=np.arange(4), bins=2, timelag=-1,
+#                normalize=True)
+#
+#    prob_xy(X_m, bins=0, maxl=1, samevals=True)
+#    prob_xy(X_m, bins=0, maxl=1, samevals=False)
+#    prob_xy(X_m, bins=0, maxl=1, samevals=np.arange(5))
+#    prob_xy(X_m, bins=0, maxl=1, samevals=[np.arange(5)]*4)
+#
+#    prob_x(X_m, n_bins=0, individually=True, normalize=True)
+#    prob_x(X_m, n_bins=2, individually=False, normalize=True)
+#
+#    #### Regime statistics
+#    #######################
+#    raster = np.random.randint(0, 10, (1000, 4))
+#    times_event = np.random.randn(1000).cumsum()
+#    element_event = np.random.randint(0, 5, 1000)
+#    regimes_event = np.random.randint(0, 2, 1000)
+#    spks = times_event, element_event, regimes_event
+#
+#    parse_spks(raster)
+#    parse_spks(spks)
+#
+#    prob_regimes_x(spks)
+#    prob_regimes_x(spks, 10)
+#    prob_regimes_x(spks, normalized=True)
+#    prob_regimes_x(spks, 10, normalized=True)
+#
+#    temporal_counts(spks, normalized=False, collapse_reg=True)
+#    temporal_counts(spks, normalized=False, collapse_reg=False)
+#    temporal_counts(spks, normalized=True, collapse_reg=True)
+#    temporal_counts(spks, normalized=True, collapse_reg=False)
+#
+#    temporal_average_counts(spks, window=0, collapse_reg=True)
+#    temporal_average_counts(spks, window=20, collapse_reg=True)
+#    temporal_average_counts(spks, window=0, collapse_reg=False)
+#    temporal_average_counts(spks, window=20, collapse_reg=False)
+#
+#    count_repeated(raster[:, 0])
+#
+#    temporal_densities(spks, w_limit=0, collapse_reg=True)
+#    temporal_densities(spks, w_limit=20, collapse_reg=True)
+#    temporal_densities(spks, w_limit=0, collapse_reg=False)
+#    temporal_densities(spks, w_limit=20, collapse_reg=False)
+#
+#    ## Interevent statistics
+#    ##
+#    isis_computation(spks, logscale=False)
+#    isis_computation(spks, logscale=True)
+#
+#    isi_distribution(spks, 10, globally=False, normalized=True,
+#                     logscale=True)
+#    isi_distribution(spks, 10, globally=True, normalized=True,
+#                     logscale=False)
+#    isi_distribution(spks, 10, globally=False, normalized=False,
+#                     logscale=False)
+#    isi_distribution(spks, 10, globally=True, normalized=False,
+#                     logscale=True)
+#
+#    temporal_si(spks)
+#
+#    ## Probs utils
+#    ##
+#    c_xy, max_l = np.random.randint(0, 100, (10, 10, 6)), 5
+#    general_count(c_xy)
+#    general_count(c_xy, max_l)
+#
+#    counts_normalization(np.random.randint(0, 100, 1000), 1000)
+#    counts_normalization(c_xy, 1000)
+#
+#    ## Counting probs in the events information information
+#    ##
+#    prob_spk_xy(spks, max_l=8, normalized=False)
+#    prob_spk_xy(spks, max_l=8, normalized=True)
+#
+#    ## Statistics bursts
+#    bursts = [np.arange(1, 10), np.arange(50, 60)]
+#    count_into_bursts(spks, bursts, elements=None)
+#    count_into_bursts(spks, bursts, elements=range(5))
