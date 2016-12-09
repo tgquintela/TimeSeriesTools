@@ -120,7 +120,7 @@ def test():
     #### Regime statistics
     #######################
     raster = np.random.randint(0, 10, (1000, 4))
-    times_event = np.random.randn(1000).cumsum()
+    times_event = np.random.random(1000).cumsum()
     element_event = np.random.randint(0, 5, 1000)
     regimes_event = np.random.randint(0, 2, 1000)
     spks = times_event, element_event, regimes_event
