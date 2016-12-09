@@ -298,12 +298,12 @@ def isi_distribution(spks, n_bins, globally=False, normalized=True,
     assert(len(isis_concat.shape) == 1)
     assert(type(n_bins) == int)
     assert(np.all(np.isfinite(isis_concat)))
-    np.histogram(isis_concat, bins=n_bins)
-    return isis_concat
+#    np.histogram(isis_concat, bins=n_bins)
+#    return isis_concat
 
 #    # Global computing of ISI distribution
-#    hist, bin_edges = np.histogram(isis_concat, bins=n_bins)
-#    return hist, bin_edges
+    hist, bin_edges = np.histogram(isis_concat, bins=n_bins)
+    return hist, bin_edges
 
 #    # Compute the ISI distribution
 #    if globally:
