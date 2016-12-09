@@ -150,9 +150,8 @@ def test():
     temporal_densities(spks, w_limit=0, collapse_reg=False)
     temporal_densities(spks, w_limit=20, collapse_reg=False)
 
-#    ## Interevent statistics
-#    ##
-    assert(np.all(np.isfinite(spks)))
+    ## Interevent statistics
+    ##
     isis_computation(spks, logscale=False)
     isis_computation(spks, logscale=True)
 
