@@ -294,11 +294,11 @@ def isi_distribution(spks, n_bins, globally=False, normalized=True,
     isis, elements = isis_computation(spks, logscale)
     # Concatenate in an array
     isis_concat = np.hstack(isis)
-    return isis_concat
 
-#    # Global computing of ISI distribution
-#    hist, bin_edges = np.histogram(isis_concat, bins=n_bins)
-#
+    # Global computing of ISI distribution
+    hist, bin_edges = np.histogram(isis_concat, bins=n_bins)
+    return hist, bin_edges
+
 #    # Compute the ISI distribution
 #    if globally:
 #        if normalized:
