@@ -166,9 +166,9 @@ def test():
 
     temporal_si(spks)
 
-    ## Probs utils
-    ##
-    c_xy, max_l = np.random.randint(0, 100, (10, 10, 6)), 5
+#    ## Probs utils
+#    ##
+#    c_xy, max_l = np.random.randint(0, 100, (10, 10, 6)), 5
 #    general_count(c_xy)
 #    general_count(c_xy, max_l)
 #
@@ -179,8 +179,8 @@ def test():
 #    ##
 #    prob_spk_xy(spks, max_l=8, normalized=False)
 #    prob_spk_xy(spks, max_l=8, normalized=True)
-
-    ## Statistics bursts
-    bursts = [np.arange(1, 10), np.arange(50, 60)]
-    count_into_bursts(spks, bursts, elements=None)
-    count_into_bursts(spks, bursts, elements=range(5))
+#
+#    ## Statistics bursts
+#    bursts = [np.arange(1, 10), np.arange(50, 60)]
+#    count_into_bursts(spks, bursts, elements=None)
+#    count_into_bursts(spks, bursts, elements=range(5))
