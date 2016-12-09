@@ -165,12 +165,12 @@ def test():
                      logscale=True)
 
     temporal_si(spks)
-#
-#    ## Probs utils
-#    ##
-#    c_xy, max_l = np.random.randint(0, 100, (10, 10, 6)), 5
-#    general_count(c_xy)
-#    general_count(c_xy, max_l)
+
+    ## Probs utils
+    ##
+    c_xy, max_l = np.random.randint(0, 100, (10, 10, 6)), 5
+    general_count(c_xy)
+    general_count(c_xy, max_l)
 #
 #    counts_normalization(np.random.randint(0, 100, 1000), 1000)
 #    counts_normalization(c_xy, 1000)
