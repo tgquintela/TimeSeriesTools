@@ -171,14 +171,14 @@ def test():
     c_xy, max_l = np.random.randint(0, 100, (10, 10, 6)), 5
 #    general_count(c_xy)
 #    general_count(c_xy, max_l)
-
-    counts_normalization(np.random.randint(0, 100, 1000), 1000)
-    counts_normalization(c_xy, 1000)
 #
-#    ## Counting probs in the events information information
-#    ##
-#    prob_spk_xy(spks, max_l=8, normalized=False)
-#    prob_spk_xy(spks, max_l=8, normalized=True)
+#    counts_normalization(np.random.randint(0, 100, 1000), 1000)
+#    counts_normalization(c_xy, 1000)
+#
+    ## Counting probs in the events information information
+    ##
+    prob_spk_xy(spks, max_l=8, normalized=False)
+    prob_spk_xy(spks, max_l=8, normalized=True)
 #
 #    ## Statistics bursts
 #    bursts = [np.arange(1, 10), np.arange(50, 60)]
