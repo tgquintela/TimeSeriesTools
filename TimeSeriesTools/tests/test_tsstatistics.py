@@ -108,11 +108,11 @@ def test():
     prob_xy_ind(x, y, samevals=False, bins=[0, 0], timelag=-1, normalize=True)
     prob_xy_ind(x, y, samevals=np.arange(4), bins=2, timelag=-1,
                 normalize=True)
-#
-#    prob_xy(X_m, bins=0, maxl=1, samevals=True)
-#    prob_xy(X_m, bins=0, maxl=1, samevals=False)
-#    prob_xy(X_m, bins=0, maxl=1, samevals=np.arange(5))
-#    prob_xy(X_m, bins=0, maxl=1, samevals=[np.arange(5)]*4)
+
+    prob_xy(X_m, bins=0, maxl=1, samevals=True)
+    prob_xy(X_m, bins=0, maxl=1, samevals=False)
+    prob_xy(X_m, bins=0, maxl=1, samevals=np.arange(5))
+    prob_xy(X_m, bins=0, maxl=1, samevals=[np.arange(5)]*4)
 #
 #    prob_x(X_m, n_bins=0, individually=True, normalize=True)
 #    prob_x(X_m, n_bins=2, individually=False, normalize=True)
