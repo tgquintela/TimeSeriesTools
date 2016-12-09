@@ -155,8 +155,8 @@ def test():
     isis_computation(spks, logscale=False)
     isis_computation(spks, logscale=True)
 #
-#    isi_distribution(spks, 10, globally=False, normalized=True,
-#                     logscale=True)
+    isi_distribution(spks, 10, globally=False, normalized=True,
+                     logscale=True)
 #    isi_distribution(spks, 10, globally=True, normalized=True,
 #                     logscale=False)
 #    isi_distribution(spks, 10, globally=False, normalized=False,
