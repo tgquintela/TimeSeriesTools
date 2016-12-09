@@ -297,7 +297,7 @@ def isi_distribution(spks, n_bins, globally=False, normalized=True,
     assert(type(isis_concat) == np.ndarray)
     assert(len(isis_concat.shape) == 1)
     assert(type(n_bins) == int)
-    assert(np.isfinite(isis_concat))
+    assert(np.all(np.isfinite(isis_concat)))
 #    np.histogram(isis_concat, bins=n_bins)
     return isis_concat
 
@@ -331,7 +331,7 @@ def isis_computation(spks, logscale=False):
     spks: array_like, shape (N,variables)
         description of the spikes detected.
     logscale: bool
-        return the histogram in x logscale.
+        return the inter spikes intervals in logscale.
 
     Returns
     -------

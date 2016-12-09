@@ -158,8 +158,8 @@ def test():
 #
 #    isi_distribution(spks, 10, globally=False, normalized=True,
 #                     logscale=True)
-#    isi_distribution(spks, 10, globally=True, normalized=True,
-#                     logscale=False)
+    isi_distribution(spks, 10, globally=True, normalized=True,
+                     logscale=False)
 #    isi_distribution(spks, 10, globally=False, normalized=False,
 #                     logscale=False)
 #    isi_distribution(spks, 10, globally=True, normalized=False,
