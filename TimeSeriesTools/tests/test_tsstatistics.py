@@ -164,7 +164,7 @@ def test():
 #    isi_distribution(spks, 10, globally=True, normalized=False,
 #                     logscale=True)
 #
-#    temporal_si(spks)
+    temporal_si(spks)
 
     ## Probs utils
     ##
