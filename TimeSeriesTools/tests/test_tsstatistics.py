@@ -67,26 +67,26 @@ def test():
     p_x_y = compute_conditional_probs(probs, [1, 2])
     assert(p_x_y.shape == probs.shape)
 
-#    ## probabilitytools
-#    ###################
-#    L = 3
-#    X_m = np.random.randint(0, 5, (1000, 4))
-#    x, y = np.random.randint(0, 5, 1000), np.random.randint(0, 5, 1000)
-#
-#    prob_ngram_ind(x, y, 1, auto=False, samevals=False, normalize=True)
-#    prob_ngram_ind(x, y, 1, auto=True, samevals=[range(5)]*2, normalize=True)
-#    prob_ngram_ind(x, y, 2, auto=False, samevals=False, normalize=True)
-#    prob_ngram_ind(x, y, 2, auto=True, samevals=[np.arange(5)]*2,
-#                   normalize=True)
-#    prob_ngram_ind(x, y, L, auto=False, samevals=np.arange(5), normalize=True)
-#    prob_ngram_ind(x, y, L, auto=True, samevals=True, normalize=True)
-#
-#    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=True, normalize=True)
-#    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=False, normalize=True)
-#    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=np.arange(5),
-#                  normalize=True)
-#    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=[range(5)]*4,
-#                  normalize=True)
+    ## probabilitytools
+    ###################
+    L = 3
+    X_m = np.random.randint(0, 5, (1000, 4))
+    x, y = np.random.randint(0, 5, 1000), np.random.randint(0, 5, 1000)
+
+    prob_ngram_ind(x, y, 1, auto=False, samevals=False, normalize=True)
+    prob_ngram_ind(x, y, 1, auto=True, samevals=[range(5)]*2, normalize=True)
+    prob_ngram_ind(x, y, 2, auto=False, samevals=False, normalize=True)
+    prob_ngram_ind(x, y, 2, auto=True, samevals=[np.arange(5)]*2,
+                   normalize=True)
+    prob_ngram_ind(x, y, L, auto=False, samevals=np.arange(5), normalize=True)
+    prob_ngram_ind(x, y, L, auto=True, samevals=True, normalize=True)
+
+    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=True, normalize=True)
+    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=False, normalize=True)
+    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=np.arange(5),
+                  normalize=True)
+    prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=[range(5)]*4,
+                  normalize=True)
 #
 #    prob_ngram_x(X_m, 1, bins=None, samevals=True, normalize=True)
 #    prob_ngram_x(X_m, 1, bins=None, samevals=False, normalize=True)
