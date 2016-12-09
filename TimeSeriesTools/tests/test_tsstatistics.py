@@ -26,24 +26,24 @@ def test():
     #Test functions
     ##################
 
-    ## Utils
-    #########
-    uniform_input_lags([5], X)
-    lags = uniform_input_lags(np.array([5]), X)
-    uniform_input_samevals(True, X_disc)
-    uniform_input_samevals(False, np.atleast_2d(X_disc).T)
-    uniform_input_samevals(range(20), X_disc)
-    uniform_input_samevals(np.arange(20), X_disc)
-
-    ngram = create_ngram(X_disc, lags, samevals=True)
-    lags = lags = uniform_input_lags(np.array([5]), X_disc)
-    ngram = create_ngram(X_disc, range(5), samevals=True)
-
-    pres, post = [0], [0]
-    L = 1
-    build_ngram_arrays(np.atleast_2d(X_disc).T, post, pres, L)
-    L = 2
-    build_ngram_arrays(np.atleast_2d(X_disc).T, post, pres, L)
+#    ## Utils
+#    #########
+#    uniform_input_lags([5], X)
+#    lags = uniform_input_lags(np.array([5]), X)
+#    uniform_input_samevals(True, X_disc)
+#    uniform_input_samevals(False, np.atleast_2d(X_disc).T)
+#    uniform_input_samevals(range(20), X_disc)
+#    uniform_input_samevals(np.arange(20), X_disc)
+#
+#    ngram = create_ngram(X_disc, lags, samevals=True)
+#    lags = lags = uniform_input_lags(np.array([5]), X_disc)
+#    ngram = create_ngram(X_disc, range(5), samevals=True)
+#
+#    pres, post = [0], [0]
+#    L = 1
+#    build_ngram_arrays(np.atleast_2d(X_disc).T, post, pres, L)
+#    L = 2
+#    build_ngram_arrays(np.atleast_2d(X_disc).T, post, pres, L)
 
     ## TO IMPLEMENT
 #    X_mdisc = np.random.randint(0, 20, (1000, 5))
