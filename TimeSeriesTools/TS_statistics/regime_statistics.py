@@ -295,6 +295,7 @@ def isi_distribution(spks, n_bins, globally=False, normalized=True,
     # Concatenate in an array
     isis_concat = np.hstack(isis)
     assert(type(isis_concat) == np.ndarray)
+    assert(len(isis_concat.shape) == 1)
     assert(type(n_bins) == int)
     return isis_concat
 
