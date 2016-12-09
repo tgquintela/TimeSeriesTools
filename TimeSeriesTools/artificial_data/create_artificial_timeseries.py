@@ -253,5 +253,6 @@ def create_random_raster(n_times, n_elements, regimes_info):
                     raster_i[aux_i == j] = regimes_info[i][j]
         raster_i = raster_i.reshape((n_times, n_elements)).astype(int)
         raster.append(raster_i)
-    raster = np.stack(raster, axis=2)
+    #raster = np.stack(raster, axis=2)  ## version 1.11
+    raster = np.rollaxis(np.array(raster), axis=2, start=1).T
     return raster
