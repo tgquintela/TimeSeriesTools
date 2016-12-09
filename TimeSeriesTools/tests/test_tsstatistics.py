@@ -125,18 +125,18 @@ def test():
     regimes_event = np.random.randint(0, 2, 1000)
     spks = times_event, element_event, regimes_event
 
-#    parse_spks(raster)
-#    parse_spks(spks)
-#
-#    prob_regimes_x(spks)
-#    prob_regimes_x(spks, 10)
-#    prob_regimes_x(spks, normalized=True)
-#    prob_regimes_x(spks, 10, normalized=True)
-#
-#    temporal_counts(spks, normalized=False, collapse_reg=True)
-#    temporal_counts(spks, normalized=False, collapse_reg=False)
-#    temporal_counts(spks, normalized=True, collapse_reg=True)
-#    temporal_counts(spks, normalized=True, collapse_reg=False)
+    parse_spks(raster)
+    parse_spks(spks)
+
+    prob_regimes_x(spks)
+    prob_regimes_x(spks, 10)
+    prob_regimes_x(spks, normalized=True)
+    prob_regimes_x(spks, 10, normalized=True)
+
+    temporal_counts(spks, normalized=False, collapse_reg=True)
+    temporal_counts(spks, normalized=False, collapse_reg=False)
+    temporal_counts(spks, normalized=True, collapse_reg=True)
+    temporal_counts(spks, normalized=True, collapse_reg=False)
 #
 #    temporal_average_counts(spks, window=0, collapse_reg=True)
 #    temporal_average_counts(spks, window=20, collapse_reg=True)
