@@ -175,12 +175,12 @@ def test():
 #    counts_normalization(np.random.randint(0, 100, 1000), 1000)
 #    counts_normalization(c_xy, 1000)
 #
-    ## Counting probs in the events information information
-    ##
-    prob_spk_xy(spks, max_l=8, normalized=False)
-    prob_spk_xy(spks, max_l=8, normalized=True)
-#
-#    ## Statistics bursts
-#    bursts = [np.arange(1, 10), np.arange(50, 60)]
-#    count_into_bursts(spks, bursts, elements=None)
-#    count_into_bursts(spks, bursts, elements=range(5))
+#    ## Counting probs in the events information information
+#    ##
+#    prob_spk_xy(spks, max_l=8, normalized=False)
+#    prob_spk_xy(spks, max_l=8, normalized=True)
+
+    ## Statistics bursts
+    bursts = [np.arange(1, 10), np.arange(50, 60)]
+    count_into_bursts(spks, bursts, elements=None)
+    count_into_bursts(spks, bursts, elements=range(5))
