@@ -152,7 +152,7 @@ def test():
 
 #    ## Interevent statistics
 #    ##
-    isis_computation(spks, logscale=False)
+#    isis_computation(spks, logscale=False)
 #    isis_computation(spks, logscale=True)
 #
 #    isi_distribution(spks, 10, globally=False, normalized=True,
