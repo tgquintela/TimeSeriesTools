@@ -113,10 +113,10 @@ def test():
     prob_xy(X_m, bins=0, maxl=1, samevals=False)
     prob_xy(X_m, bins=0, maxl=1, samevals=np.arange(5))
     prob_xy(X_m, bins=0, maxl=1, samevals=[np.arange(5)]*4)
-#
-#    prob_x(X_m, n_bins=0, individually=True, normalize=True)
-#    prob_x(X_m, n_bins=2, individually=False, normalize=True)
-#
+
+    prob_x(X_m, n_bins=0, individually=True, normalize=True)
+    prob_x(X_m, n_bins=2, individually=False, normalize=True)
+
 #    #### Regime statistics
 #    #######################
 #    raster = np.random.randint(0, 10, (1000, 4))
