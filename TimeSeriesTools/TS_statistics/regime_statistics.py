@@ -303,24 +303,24 @@ def isi_distribution(spks, n_bins, globally=False, normalized=True,
 
 #    # Global computing of ISI distribution
     hist, bin_edges = np.histogram(isis_concat, bins=n_bins)
-    return hist, bin_edges
+#    return hist, bin_edges
 
-#    # Compute the ISI distribution
-#    if globally:
-#        if normalized:
-#            isi = hist/float(np.sum(hist))
-#        else:
-#            isi = hist
-#    else:
-#        isi = np.zeros((elements.shape[0], n_bins))
-#        for i in range(elements.shape[0]):
-#            aux = np.histogram(isis[i], bins=bin_edges)[0]
-#            if normalized:
-#                isi[i, :] = aux/float(np.sum(aux))
-#            else:
-#                isi[i, :] = aux
-#
-#    return isi, bin_edges
+    # Compute the ISI distribution
+    if globally:
+        if normalized:
+            isi = hist/float(np.sum(hist))
+        else:
+            isi = hist
+    else:
+        isi = np.zeros((elements.shape[0], n_bins))
+        for i in range(elements.shape[0]):
+            aux = np.histogram(isis[i], bins=bin_edges)[0]
+            if normalized:
+                isi[i, :] = aux/float(np.sum(aux))
+            else:
+                isi[i, :] = aux
+
+    return isi, bin_edges
 
 
 def isis_computation(spks, logscale=False):
