@@ -180,7 +180,7 @@ def test():
     prob_spk_xy(spks, max_l=8, normalized=False)
     prob_spk_xy(spks, max_l=8, normalized=True)
 
-#    ## Statistics bursts
-#    bursts = [np.arange(1, 10), np.arange(50, 60)]
-#    count_into_bursts(spks, bursts, elements=None)
-#    count_into_bursts(spks, bursts, elements=range(5))
+    ## Statistics bursts
+    bursts = [np.arange(1, 10), np.arange(50, 60)]
+    count_into_bursts(spks, bursts, elements=None)
+    count_into_bursts(spks, bursts, elements=range(5))
