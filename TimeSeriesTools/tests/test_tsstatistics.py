@@ -117,14 +117,14 @@ def test():
     prob_x(X_m, n_bins=0, individually=True, normalize=True)
     prob_x(X_m, n_bins=2, individually=False, normalize=True)
 
-#    #### Regime statistics
-#    #######################
-#    raster = np.random.randint(0, 10, (1000, 4))
-#    times_event = np.random.randn(1000).cumsum()
-#    element_event = np.random.randint(0, 5, 1000)
-#    regimes_event = np.random.randint(0, 2, 1000)
-#    spks = times_event, element_event, regimes_event
-#
+    #### Regime statistics
+    #######################
+    raster = np.random.randint(0, 10, (1000, 4))
+    times_event = np.random.randn(1000).cumsum()
+    element_event = np.random.randint(0, 5, 1000)
+    regimes_event = np.random.randint(0, 2, 1000)
+    spks = times_event, element_event, regimes_event
+
 #    parse_spks(raster)
 #    parse_spks(spks)
 #
