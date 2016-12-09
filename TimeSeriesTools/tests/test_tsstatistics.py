@@ -87,12 +87,12 @@ def test():
                   normalize=True)
     prob_ngram_xy(X_m, 1, bins=None, auto=True, samevals=[range(5)]*4,
                   normalize=True)
-#
-#    prob_ngram_x(X_m, 1, bins=None, samevals=True, normalize=True)
-#    prob_ngram_x(X_m, 1, bins=None, samevals=False, normalize=True)
-#    prob_ngram_x(X_m, 1, bins=None, samevals=np.arange(5), normalize=True)
-#    prob_ngram_x(X_m, 1, bins=None, samevals=[np.arange(5)]*4, normalize=True)
-#
+
+    prob_ngram_x(X_m, 1, bins=None, samevals=True, normalize=True)
+    prob_ngram_x(X_m, 1, bins=None, samevals=False, normalize=True)
+    prob_ngram_x(X_m, 1, bins=None, samevals=np.arange(5), normalize=True)
+    prob_ngram_x(X_m, 1, bins=None, samevals=[np.arange(5)]*4, normalize=True)
+
 #    compute_joint_probs(X_m, values=[], normalize=True)
 #    compute_joint_probs(X_m, values=np.arange(5), normalize=True)
 #    compute_joint_probs(X_m, values=np.arange(5), normalize=True)
