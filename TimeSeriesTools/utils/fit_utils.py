@@ -53,5 +53,5 @@ def fit_loglogleastsquares(measures, scales):
 
     """
     scales = np.vstack([np.log(scales), np.ones(len(scales))]).T
-    beta = np.linalg.lstsq(np.log(scales), np.log(measures))[0][0]
+    beta = np.linalg.lstsq(scales, np.log(measures))[0][0]
     return beta
