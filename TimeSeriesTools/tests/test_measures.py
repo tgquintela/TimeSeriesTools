@@ -33,13 +33,13 @@ def test():
     times_rd, rand_ts = create_brownian_noise_regular_ts(n_times)
     normal_rand = np.random.randn(n_times)
     uniform_rand = np.random.random(n_times)
-#
-#    #### Test measures
-#    #################################################################
-#
-#    ## Entropy measure
-#    mea = entropy(raster)
-#    assert(type(mea) == float)
+
+    #### Test measures
+    #################################################################
+
+    ## Entropy measure
+    mea = entropy(raster)
+    assert(type(mea) == float)
 
     ## Hurst measure
 #    T = create_RS_scales_sequence(vals, sequence='complete')
