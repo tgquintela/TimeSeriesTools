@@ -34,7 +34,7 @@ warnings.simplefilter("ignore")
 def test():
     ## Tests of modules
     test_artificial_data.test()
-##    test_utils.test()
+    test_utils.test()
 ##    test_measures.test()
     test_transformations.test()
     test_burstdetection.test()
