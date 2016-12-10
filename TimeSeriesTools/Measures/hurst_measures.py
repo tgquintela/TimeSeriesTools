@@ -362,6 +362,7 @@ def hurst_alternative_rs_values(X, T=None):
         R_T[i] = np.max(X_T[:i+1]) - np.min(X_T[:i+1])
     # Logaritmic ratio of max difference with and std
 #    R_S = R_T / S_T
+    assert(not np.any(S_T == 0))
     R_S = T
     return R_S, T
 
