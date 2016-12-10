@@ -57,7 +57,9 @@ def test():
 
     ### Fit utils
     ##############
-#    x = np.random.random(1000).cumsum()
-#    y = x + np.random.randn(1000)*0.01
-#    general_multiscale_fit(x, y, 'loglogLSQ')
-#    fit_loglogleastsquares(x, y)
+    x = np.random.random(1000).cumsum()
+    y = x + np.random.randn(1000)*0.01
+    x = x + x.min()+0.001
+    y = y + y.min()+0.001
+    general_multiscale_fit(x, y, 'loglogLSQ')
+    fit_loglogleastsquares(x, y)
