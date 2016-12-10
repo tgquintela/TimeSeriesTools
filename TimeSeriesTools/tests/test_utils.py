@@ -63,5 +63,5 @@ def test():
     y = y + y.min()+0.001
     assert(np.all(x > 0))
     assert(np.all(y > 0))
-#    general_multiscale_fit(x, y, 'loglogLSQ')
-#    fit_loglogleastsquares(x, y)
+    general_multiscale_fit(x, y, 'loglogLSQ')
+    fit_loglogleastsquares(x, y)
