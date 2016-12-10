@@ -7,7 +7,7 @@ discretization of a time series.
 import numpy as np
 
 
-def value_discretization(Y, discret_info, method, kwargs):
+def value_discretization(Y, discret_info, method, kwargs={}):
     """Function which acts as a switcher and wraps all the functions related
     with value discretization.
 
