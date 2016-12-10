@@ -28,12 +28,8 @@ def hurst(X, scales=None, method='RS', fit_method='loglogLSQ'):
             * 'RS_alternative': alternative method of RS-like estimation.
             * 'higuchi' estimate the hurst parameter of a given sequence with
                 higuchi's method.
-            * 'per': 
+            * 'per': periodogram method.
             * 'peng': 
-
-%               'aggvar': use aggvar function to estimate.
-%               'RS': use RS function to estimate.
-%               'per': use per function to estimate.
 
     Returns
     -------
@@ -238,8 +234,8 @@ def hurst_per(X, M=None, fit_method='loglogLSQ'):
     assert(len(L) == len(M))
     assert(np.all(np.isfinite(M)))
     assert(np.all(np.isfinite(L)))
-#    measure = general_multiscale_fit(L, M, fit_method)
-    measure = 0.5
+    measure = general_multiscale_fit(L, M, fit_method)
+#    measure = 0.5
     ## Computation of the Hurst parameter
     H = per_hurst_measure(measure)
     return H
