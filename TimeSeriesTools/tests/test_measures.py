@@ -81,13 +81,10 @@ def test():
 
     T = create_peng_scales_sequence(rand_ts)
     T = create_peng_scales_sequence(rand_ts, T)
-#    H = hurst(rand_ts, T, method='peng')
-##    print '3', H
-#    H = hurst(normal_rand, T, method='peng')
-##    print '3', H
-#    H = hurst(uniform_rand, T, method='peng')
-##    print '3', H
-#
+    H = hurst(rand_ts, T, method='peng')
+    H = hurst(normal_rand, T, method='peng')
+    H = hurst(uniform_rand, T, method='peng')
+
     T = create_scales_higuchi_sequence(rand_ts)
     T = create_scales_higuchi_sequence(rand_ts, T)
 #    H = hurst(rand_ts, T, method='higuchi')
