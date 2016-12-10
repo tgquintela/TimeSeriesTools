@@ -79,8 +79,8 @@ def test():
 #    H = hurst(uniform_rand, scales='power', method='RS_alternative')
 ##    print '1', H
 #
-#    T = create_aggvar_scales_sequence(rand_ts)
-#    T = create_aggvar_scales_sequence(rand_ts, T)
+    T = create_aggvar_scales_sequence(rand_ts)
+    T = create_aggvar_scales_sequence(rand_ts, T)
 #    H = hurst(rand_ts, T, method='aggvar')
 ##    print '2', H
 #    H = hurst(normal_rand, T, method='aggvar')
@@ -88,8 +88,8 @@ def test():
 #    H = hurst(uniform_rand, T, method='aggvar')
 ##    print '2', H
 #
-#    T = create_peng_scales_sequence(rand_ts)
-#    T = create_peng_scales_sequence(rand_ts, T)
+    T = create_peng_scales_sequence(rand_ts)
+    T = create_peng_scales_sequence(rand_ts, T)
 #    H = hurst(rand_ts, T, method='peng')
 ##    print '3', H
 #    H = hurst(normal_rand, T, method='peng')
@@ -97,8 +97,8 @@ def test():
 #    H = hurst(uniform_rand, T, method='peng')
 ##    print '3', H
 #
-#    T = create_scales_higuchi_sequence(rand_ts)
-#    T = create_scales_higuchi_sequence(rand_ts, T)
+    T = create_scales_higuchi_sequence(rand_ts)
+    T = create_scales_higuchi_sequence(rand_ts, T)
 #    H = hurst(rand_ts, T, method='higuchi')
 ##    print '4', H
 #    H = hurst(normal_rand, T, method='higuchi')
@@ -108,11 +108,11 @@ def test():
 #
     T = create_scales_periodogram_sequence(rand_ts)
     T = create_scales_periodogram_sequence(rand_ts, T)
-    H = hurst(rand_ts, T, method='per')
+#    H = hurst(rand_ts, T, method='per')
 ##    print '5', H
-    H = hurst(normal_rand, T, method='per')
+#    H = hurst(normal_rand, T, method='per')
 ##    print '5', H
-    H = hurst(uniform_rand, T, method='per')
+#    H = hurst(uniform_rand, T, method='per')
 ##    print '5', H
 #
     #### Fractal dimenstion measure
