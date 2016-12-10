@@ -363,9 +363,6 @@ def hurst_alternative_rs_values(X, T=None):
     # Logaritmic ratio of max difference with and std
     R_S = np.divide(R_T[1:], S_T[1:])
     T = T[1:]
-#    R_S = R_T / S_T
-#    assert(not np.any(S_T == 0))
-#    R_S = T
     return R_S, T
 
 
@@ -452,8 +449,9 @@ def hurst_per_values(X, M):
     M = create_scales_periodogram_sequence(X, M)
 
     # Use the lowest 20% part of periodogram to estimate the similarity.
-    x = M[:int(np.floor(len(M)/5.))]
-    y = P[:int(np.floor(len(P)/5.))]
+#    x = M[:int(np.floor(len(M)/5.))]
+#    y = P[:int(np.floor(len(P)/5.))]
+    x, y = M, P
 
     return y, x
 
