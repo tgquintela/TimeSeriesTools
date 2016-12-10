@@ -41,4 +41,4 @@ def test():
     test_tsstatistics.test()
     test_regimedetection.test()
     test_feature_extraction.test()
-##    test_similarities.test()
+    test_similarities.test()
