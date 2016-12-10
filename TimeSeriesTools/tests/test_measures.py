@@ -72,11 +72,11 @@ def test():
     H = hurst(uniform_rand, T, method='RS')
 ##    print '0', H
 #
-    H = hurst(rand_ts, scales='power', method='RS_alternative')
+#    H = hurst(rand_ts, scales='power', method='RS_alternative')
 ##    print '1', H
-    H = hurst(normal_rand, scales='power', method='RS_alternative')
+#    H = hurst(normal_rand, scales='power', method='RS_alternative')
 ##    print '1', H
-    H = hurst(uniform_rand, scales='power', method='RS_alternative')
+#    H = hurst(uniform_rand, scales='power', method='RS_alternative')
 ##    print '1', H
 #
 #    T = create_aggvar_scales_sequence(rand_ts)
@@ -115,16 +115,16 @@ def test():
 #    H = hurst(uniform_rand, T, method='per')
 ##    print '5', H
 #
-#    #### Fractal dimenstion measure
-#    ###############################
-#    ## Use fit utilities and generalize fit
-#    ##################
-#    pfd(rand_ts)
-#    pfd(normal_rand)
-#    pfd(uniform_rand)
-#    hfd(rand_ts)
-#    hfd(normal_rand)
-#    hfd(uniform_rand)
+    #### Fractal dimenstion measure
+    ###############################
+    ## Use fit utilities and generalize fit
+    ##################
+    pfd(rand_ts)
+    pfd(normal_rand)
+    pfd(uniform_rand)
+    hfd(rand_ts)
+    hfd(normal_rand)
+    hfd(uniform_rand)
 #
 #    #### Information theory measure
 #    ###############################
