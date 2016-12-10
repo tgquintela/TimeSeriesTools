@@ -114,42 +114,42 @@ def test():
 ##    print '5', H
 #    H = hurst(uniform_rand, T, method='per')
 ##    print '5', H
-
-    #### Fractal dimenstion measure
-    ###############################
-    ## Use fit utilities and generalize fit
-    ##################
-    pfd(rand_ts)
-    pfd(normal_rand)
-    pfd(uniform_rand)
-    hfd(rand_ts)
-    hfd(normal_rand)
-    hfd(uniform_rand)
-
-    #### Information theory measure
-    ###############################
-    ##
-    ##################
-    entropy(rand_ts)
-    entropy(normal_rand)
-    entropy(uniform_rand)
-    svd_entropy(rand_ts)
-    svd_entropy(normal_rand)
-    svd_entropy(uniform_rand)
-    spectral_entropy(rand_ts)
-    spectral_entropy(normal_rand)
-    spectral_entropy(uniform_rand)
-    fisher_info(rand_ts)
-    fisher_info(normal_rand)
-    fisher_info(uniform_rand)
-    dfa(rand_ts)
-    dfa(normal_rand)
-    dfa(uniform_rand)
-
-    #### Fractal dimenstion measure
-    ###############################
-    ## Use fit utilities and generalize fit
-    ##################
-    hjorth(rand_ts)
-    hjorth(normal_rand)
-    hjorth(uniform_rand)
+#
+#    #### Fractal dimenstion measure
+#    ###############################
+#    ## Use fit utilities and generalize fit
+#    ##################
+#    pfd(rand_ts)
+#    pfd(normal_rand)
+#    pfd(uniform_rand)
+#    hfd(rand_ts)
+#    hfd(normal_rand)
+#    hfd(uniform_rand)
+#
+#    #### Information theory measure
+#    ###############################
+#    ##
+#    ##################
+#    entropy(rand_ts)
+#    entropy(normal_rand)
+#    entropy(uniform_rand)
+#    svd_entropy(rand_ts)
+#    svd_entropy(normal_rand)
+#    svd_entropy(uniform_rand)
+#    spectral_entropy(rand_ts)
+#    spectral_entropy(normal_rand)
+#    spectral_entropy(uniform_rand)
+#    fisher_info(rand_ts)
+#    fisher_info(normal_rand)
+#    fisher_info(uniform_rand)
+#    dfa(rand_ts)
+#    dfa(normal_rand)
+#    dfa(uniform_rand)
+#
+#    #### Fractal dimenstion measure
+#    ###############################
+#    ## Use fit utilities and generalize fit
+#    ##################
+#    hjorth(rand_ts)
+#    hjorth(normal_rand)
+#    hjorth(uniform_rand)
