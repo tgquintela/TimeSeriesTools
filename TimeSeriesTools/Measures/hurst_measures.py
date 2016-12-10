@@ -444,7 +444,7 @@ def hurst_per_values(X, M):
     n_t = len(X)
     Xk = np.fft.fft(X)
     P_origin = np.abs(Xk)**2/(2*np.pi*n_t)
-    P = P_origin[1:int(np.floor(n_t/2.))]
+#    P = P_origin[1:int(np.floor(n_t/2.))]
 
     M = create_scales_periodogram_sequence(X, M)
 
@@ -452,7 +452,7 @@ def hurst_per_values(X, M):
 #    x = M[:int(np.floor(len(P)/5.))]
 #    y = P[:int(np.floor(len(P)/5.))]
 
-    x, y = M, P
+    x, y = M, P_origin
 
     return y, x
 
