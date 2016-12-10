@@ -348,20 +348,21 @@ def hurst_alternative_rs_values(X, T=None):
     CS_X = np.cumsum(X)
     Ave_T = CS_X/T
 
-    # Initialazing vectors
-    S_T = np.zeros(n_t)
-    R_T = np.zeros(n_t)
-
-    # Compute for each point in the serie the accumulate value of
-    # std and range in order to get this values with different sample size
-    for i in xrange(1, n_t):
-        # Std vector calculation
-        S_T[i] = np.std(X[:i+1])
-        # Vector of range between trend in i and in the rest of the TS
-        X_T = CS_X - T * Ave_T[i]
-        R_T[i] = np.max(X_T[:i+1]) - np.min(X_T[:i+1])
-    # Logaritmic ratio of max difference with and std
-    R_S = R_T / S_T
+#    # Initialazing vectors
+#    S_T = np.zeros(n_t)
+#    R_T = np.zeros(n_t)
+#
+#    # Compute for each point in the serie the accumulate value of
+#    # std and range in order to get this values with different sample size
+#    for i in xrange(1, n_t):
+#        # Std vector calculation
+#        S_T[i] = np.std(X[:i+1])
+#        # Vector of range between trend in i and in the rest of the TS
+#        X_T = CS_X - T * Ave_T[i]
+#        R_T[i] = np.max(X_T[:i+1]) - np.min(X_T[:i+1])
+#    # Logaritmic ratio of max difference with and std
+#    R_S = R_T / S_T
+    R_S = T
     return R_S, T
 
 
