@@ -30,9 +30,9 @@ def test():
     regimes_info = [(n_regs, np.random.random(n_regs))]
     raster = create_random_raster(len(ts), n_elements, regimes_info).squeeze()
 
-#    times_rd, rand_ts = create_brownian_noise_regular_ts(n_times)
-#    normal_rand = np.random.randn(n_times)
-#    uniform_rand = np.random.random(n_times)
+    times_rd, rand_ts = create_brownian_noise_regular_ts(n_times)
+    normal_rand = np.random.randn(n_times)
+    uniform_rand = np.random.random(n_times)
 #
 #    #### Test measures
 #    #################################################################
