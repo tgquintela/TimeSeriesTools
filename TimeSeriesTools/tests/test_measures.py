@@ -125,14 +125,14 @@ def test():
     hfd(rand_ts)
     hfd(normal_rand)
     hfd(uniform_rand)
-#
-#    #### Information theory measure
-#    ###############################
-#    ##
-#    ##################
-#    entropy(rand_ts)
-#    entropy(normal_rand)
-#    entropy(uniform_rand)
+
+    #### Information theory measure
+    ###############################
+    ##
+    ##################
+    entropy(rand_ts)
+    entropy(normal_rand)
+    entropy(uniform_rand)
 #    svd_entropy(rand_ts)
 #    svd_entropy(normal_rand)
 #    svd_entropy(uniform_rand)
