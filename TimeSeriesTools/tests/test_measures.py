@@ -41,31 +41,31 @@ def test():
     mea = entropy(raster)
     assert(type(mea) == float)
 
-    ## Hurst measure
-    T = create_RS_scales_sequence(vals, sequence='complete')
-    R_S, T = hurst_alternative_rs_values(vals, T)
-    mea = general_rs_fit(R_S, T)
-    print '0', mea
-    R_S, T = hurst_rs_values(vals, T)
-    mea = general_rs_fit(R_S, T)
-    print '1', mea
-    T = create_RS_scales_sequence(vals, sequence='power')
-    R_S, T = hurst_rs_values(vals, T)
-    mea = general_rs_fit(R_S, T)
-    print '2', mea
-    T = create_RS_scales_sequence(vals, sequence=T)
-    R_S, T = hurst_rs_values(vals, T)
-    mea = general_rs_fit(R_S, T)
-    print '4', mea
+#    ## Hurst measure
+#    T = create_RS_scales_sequence(vals, sequence='complete')
+#    R_S, T = hurst_alternative_rs_values(vals, T)
+#    mea = general_rs_fit(R_S, T)
+#    print '0', mea
+#    R_S, T = hurst_rs_values(vals, T)
+#    mea = general_rs_fit(R_S, T)
+#    print '1', mea
+#    T = create_RS_scales_sequence(vals, sequence='power')
+#    R_S, T = hurst_rs_values(vals, T)
+#    mea = general_rs_fit(R_S, T)
+#    print '2', mea
+#    T = create_RS_scales_sequence(vals, sequence=T)
+#    R_S, T = hurst_rs_values(vals, T)
+#    mea = general_rs_fit(R_S, T)
+#    print '3', mea
 
     #### Hurst measure
     ##################
     ## Some failure. Not correct values obtained
     ##################
-#    T = create_RS_scales_sequence(rand_ts, sequence='power')
-#    T = create_RS_scales_sequence(rand_ts, sequence='complete')
-#    T = create_RS_scales_sequence(rand_ts, sequence=T)
-#    H = hurst(rand_ts, T, method='RS')
+    T = create_RS_scales_sequence(rand_ts, sequence='power')
+    T = create_RS_scales_sequence(rand_ts, sequence='complete')
+    T = create_RS_scales_sequence(rand_ts, sequence=T)
+    H = hurst(rand_ts, T, method='RS')
 ##    print '0', H
 #    H = hurst(normal_rand, T, method='RS')
 ##    print '0', H
