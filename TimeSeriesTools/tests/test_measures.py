@@ -52,9 +52,9 @@ def test():
     H = hurst(normal_rand, T, method='RS')
     H = hurst(uniform_rand, T, method='RS')
 
-#    H = hurst(rand_ts, scales='power', method='RS_alternative')
-#    H = hurst(normal_rand, scales='power', method='RS_alternative')
-#    H = hurst(uniform_rand, scales='power', method='RS_alternative')
+    H = hurst(rand_ts, scales='power', method='RS_alternative')
+    H = hurst(normal_rand, scales='power', method='RS_alternative')
+    H = hurst(uniform_rand, scales='power', method='RS_alternative')
 
     T = create_aggvar_scales_sequence(rand_ts)
     T = create_aggvar_scales_sequence(rand_ts, T)
