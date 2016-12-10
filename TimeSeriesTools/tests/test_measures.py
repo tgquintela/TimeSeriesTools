@@ -93,10 +93,10 @@ def test():
 
     T = create_scales_periodogram_sequence(rand_ts)
     T = create_scales_periodogram_sequence(rand_ts, T)
-#    H = hurst(rand_ts, T, method='per')
-#    H = hurst(normal_rand, T, method='per')
-#    H = hurst(uniform_rand, T, method='per')
-#
+    H = hurst(rand_ts, T, method='per')
+    H = hurst(normal_rand, T, method='per')
+    H = hurst(uniform_rand, T, method='per')
+
     #### Fractal dimenstion measure
     ###############################
     ## Use fit utilities and generalize fit
