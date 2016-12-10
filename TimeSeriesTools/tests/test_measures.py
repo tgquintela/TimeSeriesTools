@@ -87,21 +87,15 @@ def test():
 
     T = create_scales_higuchi_sequence(rand_ts)
     T = create_scales_higuchi_sequence(rand_ts, T)
-#    H = hurst(rand_ts, T, method='higuchi')
-##    print '4', H
-#    H = hurst(normal_rand, T, method='higuchi')
-##    print '4', H
-#    H = hurst(uniform_rand, T, method='higuchi')
-##    print '4', H
-#
+    H = hurst(rand_ts, T, method='higuchi')
+    H = hurst(normal_rand, T, method='higuchi')
+    H = hurst(uniform_rand, T, method='higuchi')
+
     T = create_scales_periodogram_sequence(rand_ts)
     T = create_scales_periodogram_sequence(rand_ts, T)
 #    H = hurst(rand_ts, T, method='per')
-##    print '5', H
 #    H = hurst(normal_rand, T, method='per')
-##    print '5', H
 #    H = hurst(uniform_rand, T, method='per')
-##    print '5', H
 #
     #### Fractal dimenstion measure
     ###############################
