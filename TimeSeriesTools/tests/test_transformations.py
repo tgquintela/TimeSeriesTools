@@ -18,9 +18,9 @@ from ..Transformation.temporal_discretization import temporal_discretization,\
 from ..Transformation.windowing_transformation import \
     windowing_transformation, windowing_transformation_f
 from ..Transformation.transformations import general_transformation
-from ..Transformation.value_discretization import value_discretization,\
-    general_pattern_matching, discretize_with_thresholds,\
-    statistical_discretizor
+#from ..Transformation.value_discretization import value_discretization,\
+#    general_pattern_matching, discretize_with_thresholds,\
+#    statistical_discretizor
 
 
 def test():
