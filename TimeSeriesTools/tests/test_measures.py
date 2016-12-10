@@ -145,11 +145,11 @@ def test():
     dfa(rand_ts)
     dfa(normal_rand)
     dfa(uniform_rand)
-#
-#    #### Fractal dimenstion measure
-#    ###############################
-#    ## Use fit utilities and generalize fit
-#    ##################
-#    hjorth(rand_ts)
-#    hjorth(normal_rand)
-#    hjorth(uniform_rand)
+
+    #### Fractal dimenstion measure
+    ###############################
+    ## Use fit utilities and generalize fit
+    ##################
+    hjorth(rand_ts)
+    hjorth(normal_rand)
+    hjorth(uniform_rand)
