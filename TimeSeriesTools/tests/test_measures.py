@@ -66,28 +66,19 @@ def test():
     T = create_RS_scales_sequence(rand_ts, sequence='complete')
     T = create_RS_scales_sequence(rand_ts, sequence=T)
     H = hurst(rand_ts, T, method='RS')
-##    print '0', H
     H = hurst(normal_rand, T, method='RS')
-##    print '0', H
     H = hurst(uniform_rand, T, method='RS')
-##    print '0', H
-#
+
 #    H = hurst(rand_ts, scales='power', method='RS_alternative')
-##    print '1', H
 #    H = hurst(normal_rand, scales='power', method='RS_alternative')
-##    print '1', H
 #    H = hurst(uniform_rand, scales='power', method='RS_alternative')
-##    print '1', H
-#
+
     T = create_aggvar_scales_sequence(rand_ts)
     T = create_aggvar_scales_sequence(rand_ts, T)
-#    H = hurst(rand_ts, T, method='aggvar')
-##    print '2', H
-#    H = hurst(normal_rand, T, method='aggvar')
-##    print '2', H
-#    H = hurst(uniform_rand, T, method='aggvar')
-##    print '2', H
-#
+    H = hurst(rand_ts, T, method='aggvar')
+    H = hurst(normal_rand, T, method='aggvar')
+    H = hurst(uniform_rand, T, method='aggvar')
+
     T = create_peng_scales_sequence(rand_ts)
     T = create_peng_scales_sequence(rand_ts, T)
 #    H = hurst(rand_ts, T, method='peng')
