@@ -61,5 +61,7 @@ def test():
     y = x + np.random.randn(1000)*0.01
     x = x + x.min()+0.001
     y = y + y.min()+0.001
-    general_multiscale_fit(x, y, 'loglogLSQ')
-    fit_loglogleastsquares(x, y)
+    assert(np.all(x > 0))
+    assert(np.all(y > 0))
+#    general_multiscale_fit(x, y, 'loglogLSQ')
+#    fit_loglogleastsquares(x, y)
