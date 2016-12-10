@@ -236,6 +236,8 @@ def hurst_per(X, M=None, fit_method='loglogLSQ'):
     L, M = hurst_per_values(X, M)
     ## Fit of the function
     assert(len(L) == len(M))
+    assert(np.all(np.isfinite(M)))
+    assert(np.all(np.isfinite(L)))
 #    measure = general_multiscale_fit(L, M, fit_method)
     measure = 0.5
     ## Computation of the Hurst parameter
