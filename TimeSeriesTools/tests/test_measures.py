@@ -67,9 +67,9 @@ def test():
     T = create_RS_scales_sequence(rand_ts, sequence=T)
     H = hurst(rand_ts, T, method='RS')
 ##    print '0', H
-#    H = hurst(normal_rand, T, method='RS')
+    H = hurst(normal_rand, T, method='RS')
 ##    print '0', H
-#    H = hurst(uniform_rand, T, method='RS')
+    H = hurst(uniform_rand, T, method='RS')
 ##    print '0', H
 #
 #    H = hurst(rand_ts, scales='power', method='RS_alternative')
