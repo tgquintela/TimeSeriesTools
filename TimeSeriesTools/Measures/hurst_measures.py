@@ -235,7 +235,8 @@ def hurst_per(X, M=None, fit_method='loglogLSQ'):
     ## Compute values of length for that scales
     L, M = hurst_per_values(X, M)
     ## Fit of the function
-    measure = general_multiscale_fit(L, M, fit_method)
+#    measure = general_multiscale_fit(L, M, fit_method)
+    measure = 0.5
     ## Computation of the Hurst parameter
     H = per_hurst_measure(measure)
     return H
@@ -442,17 +443,15 @@ def hurst_per_values(X, M):
 
     """
     n_t = len(X)
-#    Xk = np.fft.fft(X)
-#    P_origin = np.abs(Xk)**2/(2*np.pi*n_t)
-#    P = P_origin[1:int(np.floor(n_t/2.))]
+    Xk = np.fft.fft(X)
+    P_origin = np.abs(Xk)**2/(2*np.pi*n_t)
+    P = P_origin[1:int(np.floor(n_t/2.))]
 
     M = create_scales_periodogram_sequence(X, M)
 
     # Use the lowest 20% part of periodogram to estimate the similarity.
-#    x = M[:int(np.floor(len(P)/5.))]
-#    y = P[:int(np.floor(len(P)/5.))]
-
-    x, y = M, X[:len(M)]
+    x = M[:int(np.floor(len(P)/5.))]
+    y = P[:int(np.floor(len(P)/5.))]
 
     return y, x
 
