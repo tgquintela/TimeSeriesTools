@@ -16,7 +16,9 @@ The software structure of this package is functional oriented but it is expected
 __version__ = 0.0.0
 ```
 
-# TODO list for the next version
-[X] DTW
-[ ] Pattern matching
-[ ] Statistical thresholding
+# TODO
+- [X] DTW
+- [ ] Pattern matching
+- [ ] Statistical thresholding
+- [ ] More measures
+- [ ] Standarize causality networks inference
